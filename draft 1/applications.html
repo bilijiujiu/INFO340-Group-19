@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kanban-style application tracker.">
+  <title>JobTrack | Applications</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-layout">
+      <a class="site-title" href="landing.html">JobTrack</a>
+      <nav aria-label="Main navigation" class="top-nav">
+        <a href="landing.html">Landing</a>
+        <a href="auth.html">Log In / Sign Up</a>
+        <a href="index.html">Dashboard</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="applications.html">Applications</a>
+        <a href="analytics.html">Analytics</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container app-layout">
+      <aside class="sidebar">
+        <h2 class="sidebar-title">JobTrack</h2>
+        <nav aria-label="App navigation" class="sidebar-nav">
+        <a class="" href="index.html">Dashboard</a>
+        <a class="" href="jobs.html">Job Board</a>
+        <a class="current-page" href="applications.html">Applications</a>
+        <a class="" href="analytics.html">Analytics</a>
+        <a class="" href="settings.html">Settings</a>
+        </nav>
+      </aside>
+    <section class="app-content">
+      <div class="page-heading">
+        <div>
+          <h1>My Applications</h1>
+          <p class="muted-text">A static Kanban view of the application pipeline.</p>
+        </div>
+        <a class="button" href="add-job.html">+ Add Job</a>
+      </div>
+
+      <section aria-label="Application board" class="kanban-board">
+        <section class="kanban-column">
+          <h2>Saved (12)</h2>
+          <article class="kanban-card"><h3>Figma</h3><p>UX Engineer</p></article>
+          <article class="kanban-card"><h3>Notion</h3><p>PM Intern</p></article>
+          <a class="button secondary-button" href="add-job.html">+ Add card</a>
+        </section>
+        <section class="kanban-column">
+          <h2>Applied (8)</h2>
+          <article class="kanban-card"><h3>Google</h3><p>SWE Intern</p></article>
+          <article class="kanban-card"><h3>Stripe</h3><p>Frontend</p></article>
+          <a class="button secondary-button" href="add-job.html">+ Add card</a>
+        </section>
+        <section class="kanban-column">
+          <h2>Interview (5)</h2>
+          <article class="kanban-card"><h3>Airbnb</h3><p>Designer</p></article>
+          <a class="button secondary-button" href="detail.html">View workspace</a>
+        </section>
+        <section class="kanban-column">
+          <h2>Offer (2)</h2>
+          <article class="kanban-card"><h3>Meta</h3><p>Data Analyst</p></article>
+          <a class="button secondary-button" href="detail.html">View workspace</a>
+        </section>
+        <section class="kanban-column">
+          <h2>Rejected (8)</h2>
+          <article class="kanban-card"><h3>Amazon</h3><p>SDE Intern</p></article>
+          <a class="button secondary-button" href="add-job.html">+ Add card</a>
+        </section>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-layout">
+      <p>&copy; 2026 JobTrack</p>
+      <nav aria-label="Footer navigation" class="footer-nav">
+        <a href="landing.html">Landing</a>
+        <a href="index.html">Dashboard</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="applications.html">Applications</a>
+        <a href="analytics.html">Analytics</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

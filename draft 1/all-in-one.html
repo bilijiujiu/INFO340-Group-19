@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="JobTrack team">
+  <meta name="description" content="Combined JobTrack static mockup showing all major app pages and views in one preview file.">
+  <title>JobTrack | Combined Static Mockup</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-layout">
+      <a class="site-title" href="#landing-view">JobTrack Combined Preview</a>
+      <nav aria-label="Combined preview navigation" class="top-nav">
+        <a href="#landing-view">Landing</a>
+        <a href="#auth-view">Auth</a>
+        <a href="#dashboard-view">Dashboard</a>
+        <a href="#jobs-view">Jobs</a>
+        <a href="#applications-view">Applications</a>
+        <a href="#detail-view">Detail</a>
+        <a href="#analytics-view">Analytics</a>
+        <a href="#add-job-view">Add Job</a>
+        <a href="#settings-view">Settings</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="landing-view" class="hero">
+      <div class="container hero-layout">
+        <div>
+          <p class="muted-text"><strong>1. Landing Page</strong></p>
+          <h1>Your Job Search, Organized &amp; Visualized</h1>
+          <p>Track saved jobs, applications, interviews, notes, and deadlines in one place so students can manage the job search process more clearly.</p>
+          <div class="hero-actions">
+            <a class="button" href="#auth-view">Get Started Free</a>
+            <a class="button secondary-button" href="#jobs-view">View Job Board</a>
+          </div>
+        </div>
+        <img class="hero-image" src="img/dashboard-preview.svg" alt="Illustration of a JobTrack dashboard with application cards and charts">
+      </div>
+    </section>
+
+    <section class="page-section">
+      <div class="container">
+        <h2>Landing Page Features</h2>
+        <div class="feature-grid">
+          <article class="card feature-card">
+            <h3>Track &amp; Filter Jobs</h3>
+            <p>Save roles and filter them by location, pay range, experience level, and sponsorship needs.</p>
+          </article>
+          <article class="card feature-card">
+            <h3>Notes &amp; Workspace</h3>
+            <p>Keep interview notes, deadlines, links, and next steps connected to each job.</p>
+          </article>
+          <article class="card feature-card">
+            <h3>Visualize Progress</h3>
+            <p>Review application status, interview rate, and offer rate using simple dashboard insights.</p>
+          </article>
+          <article class="card feature-card">
+            <h3>Kanban Board</h3>
+            <p>Move applications from saved to applied, interview, offer, or rejected as your search changes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="auth-view" class="page-section">
+      <div class="container">
+        <h2>2. Log In / Sign Up Page</h2>
+        <p class="muted-text">This page represents the account view users would see before entering the dashboard.</p>
+        <div class="auth-grid">
+          <section class="card">
+            <h3>Log In</h3>
+            <form class="form-stack" action="#dashboard-view">
+              <div class="form-row">
+                <label for="combined-login-email">Email</label>
+                <input id="combined-login-email" name="combined-login-email" type="email" placeholder="you@example.com">
+              </div>
+              <div class="form-row">
+                <label for="combined-login-password">Password</label>
+                <input id="combined-login-password" name="combined-login-password" type="password" placeholder="Password">
+              </div>
+              <button class="button" type="submit">Log In</button>
+            </form>
+          </section>
+
+          <section class="card">
+            <h3>Sign Up</h3>
+            <form class="form-stack" action="#dashboard-view">
+              <div class="form-row">
+                <label for="combined-signup-name">Name</label>
+                <input id="combined-signup-name" name="combined-signup-name" type="text" placeholder="Your name">
+              </div>
+              <div class="form-row">
+                <label for="combined-signup-email">Email</label>
+                <input id="combined-signup-email" name="combined-signup-email" type="email" placeholder="you@example.com">
+              </div>
+              <div class="form-row">
+                <label for="combined-signup-password">Password</label>
+                <input id="combined-signup-password" name="combined-signup-password" type="password" placeholder="Create a password">
+              </div>
+              <div class="form-row">
+                <label for="combined-confirm-password">Confirm Password</label>
+                <input id="combined-confirm-password" name="combined-confirm-password" type="password" placeholder="Confirm password">
+              </div>
+              <button class="button" type="submit">Create Account</button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard-view" class="page-section">
+      <div class="container">
+        <h2>3. Dashboard Page</h2>
+        <div class="app-layout">
+          <aside class="sidebar">
+            <h3 class="sidebar-title">JobTrack</h3>
+            <nav aria-label="Dashboard preview sidebar" class="sidebar-nav">
+              <a class="current-page" href="#dashboard-view">Dashboard</a>
+              <a href="#jobs-view">Job Board</a>
+              <a href="#applications-view">Applications</a>
+              <a href="#analytics-view">Analytics</a>
+              <a href="#settings-view">Settings</a>
+            </nav>
+          </aside>
+
+          <section class="app-content">
+            <div class="page-heading">
+              <div>
+                <h3>Welcome back, Peitong!</h3>
+                <p class="muted-text">You have three jobs that need attention this week.</p>
+              </div>
+              <a class="button" href="#add-job-view">+ Add Job</a>
+            </div>
+
+            <section aria-label="Application summary" class="stats-grid">
+              <article class="card summary-card"><strong>48</strong><span>Saved Jobs</span></article>
+              <article class="card summary-card"><strong>23</strong><span>Applied</span></article>
+              <article class="card summary-card"><strong>7</strong><span>Interviews</span></article>
+              <article class="card summary-card"><strong>2</strong><span>Offers</span></article>
+            </section>
+
+            <section class="card">
+              <h3>Recent Applications</h3>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Company</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Google</td><td>SWE Intern</td><td>Interview</td><td>Apr 10</td></tr>
+                    <tr><td>Stripe</td><td>Frontend Engineer</td><td>Applied</td><td>Apr 8</td></tr>
+                    <tr><td>Airbnb</td><td>Designer</td><td>Saved</td><td>Apr 5</td></tr>
+                    <tr><td>Meta</td><td>Data Analyst</td><td>Offer</td><td>Apr 1</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section>
+              <h3>Quick Insights</h3>
+              <div class="stats-grid">
+                <article class="card metric-card"><strong>Seattle</strong><span>Top City</span></article>
+                <article class="card metric-card"><strong>48%</strong><span>Response Rate</span></article>
+                <article class="card metric-card"><strong>12 days</strong><span>Average Wait</span></article>
+                <article class="card metric-card"><strong>Apr 18</strong><span>Next Deadline</span></article>
+              </div>
+            </section>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="jobs-view" class="page-section">
+      <div class="container">
+        <h2>4. Job Search &amp; Filter Page</h2>
+        <div class="app-layout">
+          <aside class="sidebar">
+            <h3 class="sidebar-title">JobTrack</h3>
+            <nav aria-label="Job board preview sidebar" class="sidebar-nav">
+              <a href="#dashboard-view">Dashboard</a>
+              <a class="current-page" href="#jobs-view">Job Board</a>
+              <a href="#applications-view">Applications</a>
+              <a href="#analytics-view">Analytics</a>
+              <a href="#settings-view">Settings</a>
+            </nav>
+          </aside>
+
+          <section class="app-content">
+            <section class="card">
+              <h3>Search Jobs</h3>
+              <form class="form-stack" action="#jobs-view">
+                <div class="search-row">
+                  <div class="form-row">
+                    <label for="combined-job-search">Search by title or company</label>
+                    <input id="combined-job-search" name="combined-job-search" type="search" placeholder="Search job title, company...">
+                  </div>
+                  <button class="button" type="submit">Search</button>
+                </div>
+
+                <div class="settings-grid">
+                  <div class="form-row">
+                    <label for="combined-location">Location</label>
+                    <select id="combined-location" name="combined-location">
+                      <option>Any location</option>
+                      <option>Seattle</option>
+                      <option>San Francisco</option>
+                      <option>Remote</option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-salary">Salary Range</label>
+                    <select id="combined-salary" name="combined-salary">
+                      <option>Any salary</option>
+                      <option>$60k – $100k</option>
+                      <option>$100k – $140k</option>
+                      <option>$140k+</option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-experience">Experience Level</label>
+                    <select id="combined-experience" name="combined-experience">
+                      <option>Any level</option>
+                      <option>Internship</option>
+                      <option>Entry level</option>
+                      <option>Mid level</option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-sponsorship">Visa Sponsorship</label>
+                    <select id="combined-sponsorship" name="combined-sponsorship">
+                      <option>Any</option>
+                      <option>Sponsors visa</option>
+                      <option>No sponsorship</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </section>
+
+            <p class="muted-text">284 jobs found</p>
+            <section aria-label="Job results" class="job-grid">
+              <article class="card job-card">
+                <h3>Google — SWE Intern</h3>
+                <p>Seattle · Remote · $50/hr</p>
+                <div class="job-actions">
+                  <a class="button" href="#detail-view">View Details</a>
+                  <a class="button secondary-button" href="#applications-view">Save</a>
+                </div>
+              </article>
+              <article class="card job-card">
+                <h3>Stripe — Frontend Engineer</h3>
+                <p>San Francisco · $140k+</p>
+                <div class="job-actions">
+                  <a class="button" href="#detail-view">View Details</a>
+                  <a class="button secondary-button" href="#applications-view">Save</a>
+                </div>
+              </article>
+              <article class="card job-card">
+                <h3>Airbnb — Designer</h3>
+                <p>Remote · $120k</p>
+                <div class="job-actions">
+                  <a class="button" href="#detail-view">View Details</a>
+                  <a class="button secondary-button" href="#applications-view">Save</a>
+                </div>
+              </article>
+              <article class="card job-card">
+                <h3>Meta — Data Analyst</h3>
+                <p>Menlo Park · $45/hr</p>
+                <div class="job-actions">
+                  <a class="button" href="#detail-view">View Details</a>
+                  <a class="button secondary-button" href="#applications-view">Save</a>
+                </div>
+              </article>
+            </section>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="applications-view" class="page-section">
+      <div class="container">
+        <h2>5. Application Tracker / Kanban Page</h2>
+        <div class="app-layout">
+          <aside class="sidebar">
+            <h3 class="sidebar-title">JobTrack</h3>
+            <nav aria-label="Applications preview sidebar" class="sidebar-nav">
+              <a href="#dashboard-view">Dashboard</a>
+              <a href="#jobs-view">Job Board</a>
+              <a class="current-page" href="#applications-view">Applications</a>
+              <a href="#analytics-view">Analytics</a>
+              <a href="#settings-view">Settings</a>
+            </nav>
+          </aside>
+
+          <section class="app-content">
+            <div class="page-heading">
+              <div>
+                <h3>My Applications</h3>
+                <p class="muted-text">A static Kanban view of the application pipeline.</p>
+              </div>
+              <a class="button" href="#add-job-view">+ Add Job</a>
+            </div>
+
+            <section aria-label="Application board" class="kanban-board">
+              <section class="kanban-column">
+                <h3>Saved (12)</h3>
+                <article class="kanban-card"><h4>Figma</h4><p>UX Engineer</p></article>
+                <article class="kanban-card"><h4>Notion</h4><p>PM Intern</p></article>
+                <a class="button secondary-button" href="#add-job-view">+ Add card</a>
+              </section>
+              <section class="kanban-column">
+                <h3>Applied (8)</h3>
+                <article class="kanban-card"><h4>Google</h4><p>SWE Intern</p></article>
+                <article class="kanban-card"><h4>Stripe</h4><p>Frontend</p></article>
+                <a class="button secondary-button" href="#add-job-view">+ Add card</a>
+              </section>
+              <section class="kanban-column">
+                <h3>Interview (5)</h3>
+                <article class="kanban-card"><h4>Airbnb</h4><p>Designer</p></article>
+                <a class="button secondary-button" href="#detail-view">View workspace</a>
+              </section>
+              <section class="kanban-column">
+                <h3>Offer (2)</h3>
+                <article class="kanban-card"><h4>Meta</h4><p>Data Analyst</p></article>
+                <a class="button secondary-button" href="#detail-view">View workspace</a>
+              </section>
+              <section class="kanban-column">
+                <h3>Rejected (8)</h3>
+                <article class="kanban-card"><h4>Amazon</h4><p>SDE Intern</p></article>
+                <a class="button secondary-button" href="#add-job-view">+ Add card</a>
+              </section>
+            </section>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="detail-view" class="page-section">
+      <div class="container">
+        <h2>6. Job Detail &amp; Workspace Page</h2>
+        <div class="app-layout">
+          <aside class="sidebar">
+            <h3 class="sidebar-title">JobTrack</h3>
+            <nav aria-label="Detail preview sidebar" class="sidebar-nav">
+              <a href="#dashboard-view">Dashboard</a>
+              <a href="#jobs-view">Job Board</a>
+              <a class="current-page" href="#applications-view">Applications</a>
+              <a href="#analytics-view">Analytics</a>
+              <a href="#settings-view">Settings</a>
+            </nav>
+          </aside>
+
+          <section class="app-content">
+            <div class="detail-layout">
+              <section class="card">
+                <h3>Google Software Engineer Intern</h3>
+                <p><strong>Salary:</strong> $50–60/hr</p>
+                <p><strong>Location:</strong> Seattle, WA</p>
+                <p><strong>Deadline:</strong> May 15, 2026</p>
+                <p><strong>Source:</strong> LinkedIn</p>
+                <img class="info-image" src="img/workspace.svg" alt="Illustration of a job detail and workspace layout">
+                <p class="muted-text">Job description text goes here. This page acts as a template for any selected job.</p>
+                <a class="button secondary-button" href="#jobs-view">View on Job Board</a>
+              </section>
+
+              <section class="card">
+                <h3>Workspace</h3>
+                <h4>Status</h4>
+                <ul class="status-list">
+                  <li>Saved</li>
+                  <li>Applied</li>
+                  <li>Interview</li>
+                  <li>Offer</li>
+                </ul>
+
+                <form class="form-stack" action="#detail-view">
+                  <div class="form-row">
+                    <label for="combined-job-notes">Notes</label>
+                    <textarea id="combined-job-notes" name="combined-job-notes" placeholder="Write your notes here..."></textarea>
+                  </div>
+                  <button class="button" type="submit">Save Note</button>
+                </form>
+
+                <h4>Tasks</h4>
+                <ul class="task-list">
+                  <li>Send thank-you email</li>
+                  <li>Coding challenge</li>
+                  <li>Mock interview prep</li>
+                </ul>
+                <a class="button secondary-button" href="#add-job-view">+ Add Task</a>
+              </section>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="analytics-view" class="page-section">
+      <div class="container">
+        <h2>7. Analytics &amp; Insight Page</h2>
+        <div class="app-layout">
+          <aside class="sidebar">
+            <h3 class="sidebar-title">JobTrack</h3>
+            <nav aria-label="Analytics preview sidebar" class="sidebar-nav">
+              <a href="#dashboard-view">Dashboard</a>
+              <a href="#jobs-view">Job Board</a>
+              <a href="#applications-view">Applications</a>
+              <a class="current-page" href="#analytics-view">Analytics</a>
+              <a href="#settings-view">Settings</a>
+            </nav>
+          </aside>
+
+          <section class="app-content">
+            <section class="card">
+              <h3>Analytics Filters</h3>
+              <form class="form-stack" action="#analytics-view">
+                <div class="settings-grid">
+                  <div class="form-row">
+                    <label for="combined-preferred-type">Preferred Job Type</label>
+                    <select id="combined-preferred-type" name="combined-preferred-type">
+                      <option>All job types</option>
+                      <option>Software Engineering</option>
+                      <option>Data Analyst</option>
+                      <option>Product / UX</option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-company-filter">Company</label>
+                    <input id="combined-company-filter" name="combined-company-filter" type="text" placeholder="Company">
+                  </div>
+                </div>
+              </form>
+            </section>
+
+            <section aria-label="Analytics numbers" class="stats-grid">
+              <article class="card metric-card"><strong>153,785</strong><span>Total Apps</span></article>
+              <article class="card metric-card"><strong>18.7%</strong><span>Interview Rate</span></article>
+              <article class="card metric-card"><strong>8.96%</strong><span>Offer Rate</span></article>
+              <article class="card metric-card"><strong>350,078</strong><span>Viewed Jobs</span></article>
+            </section>
+
+            <section class="analytics-grid">
+              <article class="card">
+                <h3>Application Status Distribution</h3>
+                <div class="chart-placeholder">
+                  <img src="img/analytics.svg" alt="Illustration of bar and donut charts">
+                </div>
+              </article>
+
+              <article class="card">
+                <h3>Education Level</h3>
+                <div class="bar-list" aria-label="Education level distribution">
+                  <p>Bachelor — 33%</p>
+                  <div class="bar"><span style="width: 33%;"></span></div>
+                  <p>PhD — 30%</p>
+                  <div class="bar"><span style="width: 30%;"></span></div>
+                  <p>Master — 36%</p>
+                  <div class="bar"><span style="width: 36%;"></span></div>
+                </div>
+              </article>
+
+              <article class="card">
+                <h3>Top Locations</h3>
+                <div class="bar-list" aria-label="Top application locations">
+                  <p>San Francisco, CA — 25%</p>
+                  <div class="bar"><span style="width: 25%;"></span></div>
+                  <p>Los Angeles, CA — 20%</p>
+                  <div class="bar"><span style="width: 20%;"></span></div>
+                  <p>New York — 18%</p>
+                  <div class="bar"><span style="width: 18%;"></span></div>
+                </div>
+              </article>
+
+              <article class="card">
+                <h3>Visa Sponsorship</h3>
+                <div class="chart-placeholder">
+                  <p>Sponsors Visa vs. No Visa chart placeholder</p>
+                </div>
+              </article>
+            </section>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="add-job-view" class="page-section">
+      <div class="container">
+        <h2>8. Add Job Page</h2>
+        <div class="app-layout">
+          <aside class="sidebar">
+            <h3 class="sidebar-title">JobTrack</h3>
+            <nav aria-label="Add job preview sidebar" class="sidebar-nav">
+              <a href="#dashboard-view">Dashboard</a>
+              <a class="current-page" href="#jobs-view">Job Board</a>
+              <a href="#applications-view">Applications</a>
+              <a href="#analytics-view">Analytics</a>
+              <a href="#settings-view">Settings</a>
+            </nav>
+          </aside>
+
+          <section class="app-content">
+            <section class="card">
+              <h3>Job Information</h3>
+              <form class="form-stack" action="#applications-view">
+                <div class="settings-grid">
+                  <div class="form-row">
+                    <label for="combined-company">Company</label>
+                    <input id="combined-company" name="combined-company" type="text" placeholder="Company name">
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-role">Role</label>
+                    <input id="combined-role" name="combined-role" type="text" placeholder="Job title">
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-job-location">Location</label>
+                    <input id="combined-job-location" name="combined-job-location" type="text" placeholder="City or remote">
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-deadline">Deadline</label>
+                    <input id="combined-deadline" name="combined-deadline" type="date">
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-status">Status</label>
+                    <select id="combined-status" name="combined-status">
+                      <option>Saved</option>
+                      <option>Applied</option>
+                      <option>Interview</option>
+                      <option>Offer</option>
+                      <option>Rejected</option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-source">Source</label>
+                    <input id="combined-source" name="combined-source" type="text" placeholder="LinkedIn, Handshake, referral...">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label for="combined-description">Job Description or Notes</label>
+                  <textarea id="combined-description" name="combined-description" placeholder="Paste useful notes about the role..."></textarea>
+                </div>
+                <button class="button" type="submit">Save Job</button>
+              </form>
+            </section>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="settings-view" class="page-section">
+      <div class="container">
+        <h2>9. Settings Page</h2>
+        <div class="app-layout">
+          <aside class="sidebar">
+            <h3 class="sidebar-title">JobTrack</h3>
+            <nav aria-label="Settings preview sidebar" class="sidebar-nav">
+              <a href="#dashboard-view">Dashboard</a>
+              <a href="#jobs-view">Job Board</a>
+              <a href="#applications-view">Applications</a>
+              <a href="#analytics-view">Analytics</a>
+              <a class="current-page" href="#settings-view">Settings</a>
+            </nav>
+          </aside>
+
+          <section class="app-content">
+            <section class="settings-grid">
+              <article class="card">
+                <h3>Profile</h3>
+                <form class="form-stack" action="#settings-view">
+                  <div class="form-row">
+                    <label for="combined-display-name">Display Name</label>
+                    <input id="combined-display-name" name="combined-display-name" type="text" value="Peitong">
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-school">School</label>
+                    <input id="combined-school" name="combined-school" type="text" value="University of Washington">
+                  </div>
+                  <button class="button" type="submit">Save Profile</button>
+                </form>
+              </article>
+
+              <article class="card">
+                <h3>Job Preferences</h3>
+                <form class="form-stack" action="#settings-view">
+                  <div class="form-row">
+                    <label for="combined-target-role">Target Role</label>
+                    <input id="combined-target-role" name="combined-target-role" type="text" placeholder="Software Engineer Intern">
+                  </div>
+                  <div class="form-row">
+                    <label for="combined-target-location">Target Location</label>
+                    <select id="combined-target-location" name="combined-target-location">
+                      <option>Seattle</option>
+                      <option>San Francisco</option>
+                      <option>New York</option>
+                      <option>Remote</option>
+                    </select>
+                  </div>
+                  <button class="button" type="submit">Save Preferences</button>
+                </form>
+              </article>
+
+              <article class="card">
+                <h3>Notifications</h3>
+                <form class="form-stack" action="#settings-view">
+                  <div class="form-row">
+                    <label for="combined-reminder-frequency">Reminder Frequency</label>
+                    <select id="combined-reminder-frequency" name="combined-reminder-frequency">
+                      <option>Daily</option>
+                      <option>Weekly</option>
+                      <option>Only before deadlines</option>
+                    </select>
+                  </div>
+                  <button class="button" type="submit">Save Notifications</button>
+                </form>
+              </article>
+
+              <article class="card">
+                <h3>Data Summary</h3>
+                <p>You currently track 48 saved jobs, 23 applications, 7 interviews, and 2 offers.</p>
+                <a class="button secondary-button" href="#analytics-view">View Analytics</a>
+              </article>
+            </section>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-layout">
+      <p>&copy; 2026 JobTrack</p>
+      <nav aria-label="Footer navigation" class="footer-nav">
+        <a href="#landing-view">Landing</a>
+        <a href="#dashboard-view">Dashboard</a>
+        <a href="#jobs-view">Jobs</a>
+        <a href="#applications-view">Applications</a>
+        <a href="#analytics-view">Analytics</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

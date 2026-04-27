@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Add a job to the JobTrack application tracker.">
+  <title>JobTrack | Add Job</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-layout">
+      <a class="site-title" href="landing.html">JobTrack</a>
+      <nav aria-label="Main navigation" class="top-nav">
+        <a href="landing.html">Landing</a>
+        <a href="auth.html">Log In / Sign Up</a>
+        <a href="index.html">Dashboard</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="applications.html">Applications</a>
+        <a href="analytics.html">Analytics</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container app-layout">
+      <aside class="sidebar">
+        <h2 class="sidebar-title">JobTrack</h2>
+        <nav aria-label="App navigation" class="sidebar-nav">
+        <a class="" href="index.html">Dashboard</a>
+        <a class="current-page" href="jobs.html">Job Board</a>
+        <a class="" href="applications.html">Applications</a>
+        <a class="" href="analytics.html">Analytics</a>
+        <a class="" href="settings.html">Settings</a>
+        </nav>
+      </aside>
+    <section class="app-content">
+      <div class="page-heading">
+        <div>
+          <h1>Add Job</h1>
+          <p class="muted-text">A static form view for adding a new job to the tracker.</p>
+        </div>
+        <a class="button" href="jobs.html">Back to Job Board</a>
+      </div>
+
+      <section class="card">
+        <h2>Job Information</h2>
+        <form class="form-stack" action="applications.html">
+          <div class="settings-grid">
+            <div class="form-row">
+              <label for="company">Company</label>
+              <input id="company" name="company" type="text" placeholder="Company name">
+            </div>
+            <div class="form-row">
+              <label for="role">Role</label>
+              <input id="role" name="role" type="text" placeholder="Job title">
+            </div>
+            <div class="form-row">
+              <label for="job-location">Location</label>
+              <input id="job-location" name="job-location" type="text" placeholder="City or remote">
+            </div>
+            <div class="form-row">
+              <label for="deadline">Deadline</label>
+              <input id="deadline" name="deadline" type="date">
+            </div>
+            <div class="form-row">
+              <label for="status">Status</label>
+              <select id="status" name="status">
+                <option>Saved</option>
+                <option>Applied</option>
+                <option>Interview</option>
+                <option>Offer</option>
+                <option>Rejected</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="source">Source</label>
+              <input id="source" name="source" type="text" placeholder="LinkedIn, Handshake, referral...">
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="description">Job Description or Notes</label>
+            <textarea id="description" name="description" placeholder="Paste useful notes about the role..."></textarea>
+          </div>
+          <button class="button" type="submit">Save Job</button>
+        </form>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-layout">
+      <p>&copy; 2026 JobTrack</p>
+      <nav aria-label="Footer navigation" class="footer-nav">
+        <a href="landing.html">Landing</a>
+        <a href="index.html">Dashboard</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="applications.html">Applications</a>
+        <a href="analytics.html">Analytics</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
