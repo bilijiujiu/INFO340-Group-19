@@ -1,0 +1,441 @@
+/* =========================================================
+   JobTrack Static Mockup Styles
+   Shared by all pages
+   ========================================================= */
+
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1d2733;
+  background-color: #f5f7fa;
+  line-height: 1.5;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: #165a72;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+/* ---------- Shared Layout ---------- */
+.container {
+  width: min(100% - 2rem, 1180px);
+  margin: 0 auto;
+}
+
+.page-section {
+  padding: 2rem 0;
+}
+
+.card {
+  border: 1px solid #d3dde5;
+  border-radius: 0.8rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 0.3rem 0.9rem rgba(29, 39, 51, 0.06);
+}
+
+.button {
+  display: inline-block;
+  border: 1px solid #165a72;
+  border-radius: 0.35rem;
+  padding: 0.55rem 0.9rem;
+  color: #14323d;
+  background-color: #dff3f4;
+  font-weight: 700;
+  text-align: center;
+}
+
+.button:hover,
+.button:focus {
+  color: #ffffff;
+  background-color: #165a72;
+  text-decoration: none;
+}
+
+.secondary-button {
+  background-color: #ffffff;
+}
+
+.muted-text {
+  color: #5f6f7c;
+}
+
+/* ---------- Header and Footer ---------- */
+.site-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #cfd9e2;
+}
+
+.header-layout,
+.footer-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0;
+}
+
+.site-title {
+  color: #111820;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.top-nav,
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.top-nav a,
+.footer-nav a {
+  border-radius: 0.3rem;
+  padding: 0.45rem 0.6rem;
+  color: #1d2733;
+  font-weight: 700;
+}
+
+.top-nav a:hover,
+.top-nav a:focus,
+.top-nav .current-page,
+.sidebar-nav .current-page {
+  color: #111820;
+  background-color: #dff3f4;
+  text-decoration: none;
+}
+
+.site-footer {
+  margin-top: 2rem;
+  color: #ffffff;
+  background-color: #111820;
+}
+
+.site-footer a,
+.site-footer p {
+  color: #ffffff;
+  margin-bottom: 0;
+}
+
+/* ---------- Landing Page ---------- */
+.hero {
+  padding: 3rem 0;
+  background-color: #eef6f7;
+}
+
+.hero-layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  line-height: 1.1;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hero-image,
+.info-image {
+  border: 1px solid #b9c7d1;
+  border-radius: 0.75rem;
+  background-color: #ffffff;
+}
+
+.feature-grid,
+.step-grid,
+.stats-grid,
+.job-grid,
+.analytics-grid,
+.auth-grid,
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.feature-card h3,
+.step-card h3 {
+  margin-bottom: 0.4rem;
+}
+
+/* ---------- App Layout ---------- */
+.app-layout {
+  display: grid;
+  gap: 1rem;
+  padding: 1.5rem 0;
+}
+
+.sidebar {
+  border: 1px solid #cfd9e2;
+  background-color: #ffffff;
+}
+
+.sidebar-title {
+  padding: 1rem;
+  margin: 0;
+  border-bottom: 1px solid #cfd9e2;
+  font-size: 1.25rem;
+}
+
+.sidebar-nav {
+  display: grid;
+  padding: 0.75rem;
+  gap: 0.25rem;
+}
+
+.sidebar-nav a {
+  border-radius: 0.3rem;
+  padding: 0.6rem;
+  color: #1d2733;
+  font-weight: 700;
+}
+
+.sidebar-section {
+  border-top: 1px solid #d3dde5;
+  margin: 0.75rem;
+  padding-top: 0.75rem;
+}
+
+.app-content {
+  display: grid;
+  gap: 1rem;
+}
+
+.page-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-card strong,
+.metric-card strong {
+  display: block;
+  font-size: 1.7rem;
+  color: #165a72;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #d3dde5;
+  padding: 0.7rem;
+  text-align: left;
+}
+
+th {
+  background-color: #eef6f7;
+}
+
+/* ---------- Forms ---------- */
+.form-stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.form-row {
+  display: grid;
+  gap: 0.3rem;
+}
+
+label {
+  font-weight: 700;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #9badba;
+  border-radius: 0.35rem;
+  padding: 0.55rem;
+  background-color: #ffffff;
+}
+
+textarea {
+  min-height: 8rem;
+}
+
+/* ---------- Jobs and Kanban ---------- */
+.search-row {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.job-card {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.job-card h3 {
+  margin-bottom: 0;
+}
+
+.job-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.kanban-column {
+  border: 1px solid #cfd9e2;
+  border-radius: 0.6rem;
+  padding: 0.75rem;
+  background-color: #f9fbfc;
+}
+
+.kanban-card {
+  border: 1px solid #d3dde5;
+  border-radius: 0.45rem;
+  padding: 0.65rem;
+  margin-bottom: 0.6rem;
+  background-color: #ffffff;
+}
+
+/* ---------- Detail and Analytics ---------- */
+.detail-layout {
+  display: grid;
+  gap: 1rem;
+}
+
+.status-list,
+.task-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.status-list li,
+.task-list li {
+  border: 1px solid #cfd9e2;
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  background-color: #eef6f7;
+}
+
+.chart-placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 180px;
+  border: 1px dashed #9badba;
+  border-radius: 0.6rem;
+  background-color: #f9fbfc;
+  color: #5f6f7c;
+  text-align: center;
+}
+
+.bar-list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.bar {
+  height: 1rem;
+  border-radius: 999px;
+  background-color: #dff3f4;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background-color: #165a72;
+}
+
+/* ---------- Responsive Design ---------- */
+@media (min-width: 650px) {
+  .header-layout,
+  .footer-layout,
+  .page-heading {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hero-layout,
+  .detail-layout,
+  .auth-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .feature-grid,
+  .step-grid,
+  .stats-grid,
+  .settings-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .search-row {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (min-width: 950px) {
+  .app-layout {
+    grid-template-columns: 230px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .job-grid,
+  .analytics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .kanban-board {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}

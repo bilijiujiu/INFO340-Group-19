@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Application analytics and insights.">
+  <title>JobTrack | Analytics</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-layout">
+      <a class="site-title" href="landing.html">JobTrack</a>
+      <nav aria-label="Main navigation" class="top-nav">
+        <a href="landing.html">Landing</a>
+        <a href="auth.html">Log In / Sign Up</a>
+        <a href="index.html">Dashboard</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="applications.html">Applications</a>
+        <a href="analytics.html">Analytics</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container app-layout">
+      <aside class="sidebar">
+        <h2 class="sidebar-title">JobTrack</h2>
+        <nav aria-label="App navigation" class="sidebar-nav">
+        <a class="" href="index.html">Dashboard</a>
+        <a class="" href="jobs.html">Job Board</a>
+        <a class="" href="applications.html">Applications</a>
+        <a class="current-page" href="analytics.html">Analytics</a>
+        <a class="" href="settings.html">Settings</a>
+        </nav>
+      </aside>
+    <section class="app-content">
+      <div class="page-heading">
+        <div>
+          <h1>Analytics &amp; Insight</h1>
+          <p class="muted-text">Static chart placeholders show what future interactive charts could become.</p>
+        </div>
+        <a class="button" href="jobs.html">Search More Jobs</a>
+      </div>
+
+      <section class="card">
+        <h2>Analytics Filters</h2>
+        <form class="form-stack" action="analytics.html">
+          <div class="settings-grid">
+            <div class="form-row">
+              <label for="preferred-type">Preferred Job Type</label>
+              <select id="preferred-type" name="preferred-type">
+                <option>All job types</option>
+                <option>Software Engineering</option>
+                <option>Data Analyst</option>
+                <option>Product / UX</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="company-filter">Company</label>
+              <input id="company-filter" name="company-filter" type="text" placeholder="Company">
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section aria-label="Analytics numbers" class="stats-grid">
+        <article class="card metric-card"><strong>153,785</strong><span>Total Apps</span></article>
+        <article class="card metric-card"><strong>18.7%</strong><span>Interview Rate</span></article>
+        <article class="card metric-card"><strong>8.96%</strong><span>Offer Rate</span></article>
+        <article class="card metric-card"><strong>350,078</strong><span>Viewed Jobs</span></article>
+      </section>
+
+      <section class="analytics-grid">
+        <article class="card">
+          <h2>Application Status Distribution</h2>
+          <div class="chart-placeholder">
+            <img src="img/analytics.svg" alt="Illustration of bar and donut charts">
+          </div>
+          <p class="muted-text">Offer rate, interview rate, and rejected applications would be shown here.</p>
+        </article>
+
+        <article class="card">
+          <h2>Education Level</h2>
+          <div class="bar-list" aria-label="Education level distribution">
+            <p>Bachelor — 33%</p>
+            <div class="bar"><span style="width: 33%;"></span></div>
+            <p>PhD — 30%</p>
+            <div class="bar"><span style="width: 30%;"></span></div>
+            <p>Master — 36%</p>
+            <div class="bar"><span style="width: 36%;"></span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Top Locations</h2>
+          <div class="bar-list" aria-label="Top application locations">
+            <p>San Francisco, CA — 25%</p>
+            <div class="bar"><span style="width: 25%;"></span></div>
+            <p>Los Angeles, CA — 20%</p>
+            <div class="bar"><span style="width: 20%;"></span></div>
+            <p>New York — 18%</p>
+            <div class="bar"><span style="width: 18%;"></span></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Visa Sponsorship</h2>
+          <div class="chart-placeholder">
+            <p>Sponsors Visa vs. No Visa chart placeholder</p>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-layout">
+      <p>&copy; 2026 JobTrack</p>
+      <nav aria-label="Footer navigation" class="footer-nav">
+        <a href="landing.html">Landing</a>
+        <a href="index.html">Dashboard</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="applications.html">Applications</a>
+        <a href="analytics.html">Analytics</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
