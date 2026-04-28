@@ -1,9 +1,4 @@
-/* =========================================================
-   JobTrack Static Mockup Styles
-   Shared by all pages
-   ========================================================= */
 
-/* ---------- Base ---------- */
 * {
   box-sizing: border-box;
 }
@@ -438,4 +433,13 @@ textarea {
   .kanban-board {
     grid-template-columns: repeat(5, 1fr);
   }
+}
+
+.reminder-card{
+  margin-top: 1.5rem;
+}
+
+.reminder-card ul{
+  padding-left: 1.5rem;
+  line-height: 1.7;
 }
