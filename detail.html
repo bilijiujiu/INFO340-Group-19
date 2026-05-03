@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Job detail and workspace view.">
+  <title>JobTrack | Job Detail</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-layout">
+      <a class="site-title" href="landing.html">JobTrack</a>
+      <nav aria-label="Main navigation" class="top-nav">
+        <a href="landing.html">Landing</a>
+        <a href="auth.html">Log In / Sign Up</a>
+        <a href="index.html">Dashboard</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="applications.html">Applications</a>
+        <a href="analytics.html">Analytics</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container app-layout">
+      <aside class="sidebar">
+        <h2 class="sidebar-title">JobTrack</h2>
+        <nav aria-label="App navigation" class="sidebar-nav">
+        <a class="" href="index.html">Dashboard</a>
+        <a class="" href="jobs.html">Job Board</a>
+        <a class="current-page" href="applications.html">Applications</a>
+        <a class="" href="analytics.html">Analytics</a>
+        <a class="" href="settings.html">Settings</a>
+        </nav>
+      </aside>
+    <section class="app-content">
+      <div class="page-heading">
+        <div>
+          <h1>Job Detail &amp; Workspace</h1>
+          <p class="muted-text">One reusable example detail page for a selected job card.</p>
+        </div>
+        <a class="button" href="applications.html">Back to Applications</a>
+      </div>
+
+      <div class="detail-layout">
+        <section class="card">
+          <h2>Google Software Engineer Intern</h2>
+          <p><strong>Salary:</strong> $50–60/hr</p>
+          <p><strong>Location:</strong> Seattle, WA</p>
+          <p><strong>Deadline:</strong> May 15, 2026</p>
+          <p><strong>Source:</strong> LinkedIn</p>
+          <img class="info-image" src="img/workspace.svg" alt="Illustration of a job detail and workspace layout">
+          <p class="muted-text">Job description text goes here. This page acts as a template for any job selected from the board.</p>
+          <a class="button secondary-button" href="jobs.html">View on Job Board</a>
+        </section>
+
+        <section class="card">
+          <h2>Workspace</h2>
+          <h3>Status</h3>
+          <ul class="status-list">
+            <li>Saved</li>
+            <li>Applied</li>
+            <li>Interview</li>
+            <li>Offer</li>
+          </ul>
+
+          <form class="form-stack" action="detail.html">
+            <div class="form-row">
+              <label for="job-notes">Notes</label>
+              <textarea id="job-notes" name="job-notes" placeholder="Write your notes here..."></textarea>
+            </div>
+            <button class="button" type="submit">Save Note</button>
+          </form>
+
+          <h3>Tasks</h3>
+          <ul class="task-list">
+            <li>Send thank-you email</li>
+            <li>Coding challenge</li>
+            <li>Mock interview prep</li>
+          </ul>
+          <a class="button secondary-button" href="add-job.html">+ Add Task</a>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-layout">
+      <p>&copy; 2026 JobTrack</p>
+      <nav aria-label="Footer navigation" class="footer-nav">
+        <a href="landing.html">Landing</a>
+        <a href="index.html">Dashboard</a>
+        <a href="jobs.html">Jobs</a>
+        <a href="applications.html">Applications</a>
+        <a href="analytics.html">Analytics</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
