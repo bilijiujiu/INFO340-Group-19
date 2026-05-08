@@ -1,4 +1,3 @@
-
 * {
   box-sizing: border-box;
 }
@@ -40,7 +39,6 @@ button {
   font: inherit;
 }
 
-/* ---------- Shared Layout ---------- */
 .container {
   width: min(100% - 2rem, 1180px);
   margin: 0 auto;
@@ -84,7 +82,6 @@ button {
   color: #5f6f7c;
 }
 
-/* ---------- Header and Footer ---------- */
 .site-header {
   background-color: #ffffff;
   border-bottom: 1px solid #cfd9e2;
@@ -140,7 +137,6 @@ button {
   margin-bottom: 0;
 }
 
-/* ---------- Landing Page ---------- */
 .hero {
   padding: 3rem 0;
   background-color: #eef6f7;
@@ -186,7 +182,6 @@ button {
   margin-bottom: 0.4rem;
 }
 
-/* ---------- App Layout ---------- */
 .app-layout {
   display: grid;
   gap: 1rem;
@@ -263,7 +258,6 @@ th {
   background-color: #eef6f7;
 }
 
-/* ---------- Forms ---------- */
 .form-stack {
   display: grid;
   gap: 0.75rem;
@@ -292,7 +286,6 @@ textarea {
   min-height: 8rem;
 }
 
-/* ---------- Jobs and Kanban ---------- */
 .search-row {
   display: grid;
   gap: 0.75rem;
@@ -334,7 +327,6 @@ textarea {
   background-color: #ffffff;
 }
 
-/* ---------- Detail and Analytics ---------- */
 .detail-layout {
   display: grid;
   gap: 1rem;
@@ -386,7 +378,6 @@ textarea {
   background-color: #165a72;
 }
 
-/* ---------- Responsive Design ---------- */
 @media (min-width: 650px) {
   .header-layout,
   .footer-layout,
@@ -435,11 +426,45 @@ textarea {
   }
 }
 
-.reminder-card{
-  margin-top: 1.5rem;
+.data-note {
+  border-left: 4px solid #165a72;
+  padding-left: 0.75rem;
+  color: #4f6070;
 }
 
-.reminder-card ul{
-  padding-left: 1.5rem;
-  line-height: 1.7;
+.filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.metric-card span {
+  color: #5f6f7c;
+}
+
+.bar-row {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.bar-label {
+  margin-bottom: 0;
+  color: #1d2733;
+  font-weight: 700;
+}
+
+.bar-track {
+  width: 100%;
+  min-height: 1rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background-color: #dff3f4;
+}
+
+.bar-fill {
+  display: block;
+  min-width: 0.25rem;
+  height: 1rem;
+  border-radius: 999px;
+  background-color: #165a72;
 }

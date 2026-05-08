@@ -1,7 +1,9 @@
-# JobTrack Static Mockup
+# INFO340-Group-17
+Pengyu Liu
+
+Harry Han
 
 This folder contains a complete static HTML/CSS mockup for the JobTrack project.
-
 Pages:
 - landing.html
 - auth.html
@@ -14,3 +16,5 @@ Pages:
 - settings.html
 
 All pages share css/style.css.
+
+
