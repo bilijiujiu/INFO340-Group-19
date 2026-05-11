@@ -15,10 +15,6 @@
       <nav aria-label="Main navigation" class="top-nav">
         <a href="landing.html">Landing</a>
         <a href="auth.html">Log In / Sign Up</a>
-        <a href="index.html">Dashboard</a>
-        <a href="jobs.html">Jobs</a>
-        <a href="applications.html">Applications</a>
-        <a href="analytics.html">Analytics</a>
       </nav>
     </div>
   </header>
@@ -33,114 +29,129 @@
         <a class="" href="settings.html">Settings</a>
         </nav>
       </aside>
-    <section class="app-content">
-      <div class="page-heading">
-        <div>
-          <h1>Job Search &amp; Filter</h1>
-          <p class="muted-text">Search mock job listings and filter by your preferences.</p>
+      <section class="app-content">
+        <section class="jobs-hero">
+          <div>
+            <p class="eyebrow-text">Find your next opportunity</p>
+            <h1>Discover jobs that fit your goals.</h1>
+            <p class="muted-text">Search roles, compare opportunities, and track the jobs you care about most</p>
+          </div>
+          <a class="button" href="add-job.html">Add Jobs</a>
+        </section>
+
+        <section class="card panel">
+          <form class="form" action="jobs.html">
+            <div class="search-bar">
+              <input id="job-search" name="job-search" type="search">
+              <button class="button" type="submit">Search</button>
+            </div>
+
+            <div class="Filter" aria-label="Quick Filter">
+              <a href="#" class="all jobs">All Jobs</a>
+              <a href="#" class="job">Remote</a>
+              <a href="#" class="job">Internship</a>
+              <a href="#" class="job">Visa Sponsorship</a>
+              <a href="#" class="job">Seattle</a>
+            </div>
+
+            <div class="settings-grid">
+              <div class="form-row">
+                <label for="location">Location</label>
+                <select id="location" name="location">
+                  <option>Any location</option>
+                  <option>Seattle</option>
+                  <option>San Francisco</option>
+                  <option>Remote</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="salary">Salary Range</label>
+                <select id="salary" name="salary">
+                  <option>Any Salary</option>
+                  <option>$60k-$100k</option>
+                  <option>$100k-$140k</option>
+                  <option>$140k+</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="experience">Experience level</label>
+                <select id="experience" name="experience">
+                  <option>Any level</option>
+                  <option>Entry</option>
+                  <option>Internship</option>
+                  <option>Professional</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="sponsorship">Visa Sponsorship</label>
+                <select id="sponsorship" name="sponsorship">
+                  <option>Any</option>
+                  <option>Sponsors visa</option>
+                  <option>No sponsorship</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </section>
+      </seciton>
+
+      <section class="job-board-layout">
+        <div class="job-list">
+          <article class="card job-card featured-job">
+            <p class="job-company">Google</p>
+            <h3>Software Engineer Intern</h3>
+            <p>Seattle · Hybrid · $50/hr</p>
+            <div class="tag-row">
+              <span class="tag">Internship</span>
+              <span class="tag">Visa Sponsorship</span>
+              <span class="tag">Deadline Soon</span>
+            </div>
+            <div class="job-actions">
+              <a class="button" href="detail.html">View Details</a>
+              <a class="button secondary-button" href="applications.html">Track Job</a>
+            </div>
+          </article>
+    
+          <article class="card job-card">
+            <p class="job-company">Stripe</p>
+            <h3>Frontend Engineer</h3>
+            <p>San Francisco · Full-time · $140k+</p>
+            <div class="tag-row">
+              <span class="tag">Frontend</span>
+              <span class="tag">Entry Level</span>
+            </div>
+            <div class="job-actions">
+              <a class="button" href="detail.html">View Details</a>
+              <a class="button secondary-button" href="applications.html">Track Job</a>
+            </div>
+          </article>
+    
+          <article class="card job-card">
+            <p class="job-company">Airbnb</p>
+            <h3>Product Designer</h3>
+            <p>Remote · Full-time · $120k</p>
+            <div class="tag-row">
+              <span class="tag">Remote</span>
+              <span class="tag">Design</span>
+            </div>
+            <div class="job-actions">
+              <a class="button" href="detail.html">View Details</a>
+              <a class="button secondary-button" href="applications.html">Track Job</a>
+            </div>
+          </article>
+    
+          <article class="card job-card">
+            <p class="job-company">Meta</p>
+            <h3>Data Analyst</h3>
+            <p>Menlo Park · Internship · $45/hr</p>
+            <div class="tag-row">
+              <span class="tag">Data</span>
+              <span class="tag">Internship</span>
+            </div>
+            <div class="job-actions">
+              <a class="button" href="detail.html">View Details</a>
+              <a class="button secondary-button" href="applications.html">Track Job</a>
+            </div>
+          </article>
         </div>
-        <a class="button" href="add-job.html">+ Add Job</a>
-      </div>
-
-      <section class="card">
-        <h2>Search Jobs</h2>
-        <form class="form-stack" action="jobs.html">
-          <div class="search-row">
-            <div class="form-row">
-              <label for="job-search">Search by title or company</label>
-              <input id="job-search" name="job-search" type="search" placeholder="Search job title, company...">
-            </div>
-            <button class="button" type="submit">Search</button>
-          </div>
-
-          <div class="settings-grid">
-            <div class="form-row">
-              <label for="location">Location</label>
-              <select id="location" name="location">
-                <option>Any location</option>
-                <option>Seattle</option>
-                <option>San Francisco</option>
-                <option>Remote</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <label for="salary">Salary Range</label>
-              <select id="salary" name="salary">
-                <option>Any salary</option>
-                <option>$60k – $100k</option>
-                <option>$100k – $140k</option>
-                <option>$140k+</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <label for="experience">Experience Level</label>
-              <select id="experience" name="experience">
-                <option>Any level</option>
-                <option>Internship</option>
-                <option>Entry level</option>
-                <option>Mid level</option>
-              </select>
-            </div>
-            <div class="form-row">
-              <label for="sponsorship">Visa Sponsorship</label>
-              <select id="sponsorship" name="sponsorship">
-                <option>Any</option>
-                <option>Sponsors visa</option>
-                <option>No sponsorship</option>
-              </select>
-            </div>
-          </div>
-        </form>
       </section>
-
-      <p class="muted-text">284 jobs found</p>
-      <section aria-label="Job results" class="job-grid">
-        <article class="card job-card">
-          <h3>Google — SWE Intern</h3>
-          <p>Seattle · Remote · $50/hr</p>
-          <div class="job-actions">
-            <a class="button" href="detail.html">View Details</a>
-            <a class="button secondary-button" href="applications.html">Save</a>
-          </div>
-        </article>
-        <article class="card job-card">
-          <h3>Stripe — Frontend Engineer</h3>
-          <p>San Francisco · $140k+</p>
-          <div class="job-actions">
-            <a class="button" href="detail.html">View Details</a>
-            <a class="button secondary-button" href="applications.html">Save</a>
-          </div>
-        </article>
-        <article class="card job-card">
-          <h3>Airbnb — Designer</h3>
-          <p>Remote · $120k</p>
-          <div class="job-actions">
-            <a class="button" href="detail.html">View Details</a>
-            <a class="button secondary-button" href="applications.html">Save</a>
-          </div>
-        </article>
-        <article class="card job-card">
-          <h3>Meta — Data Analyst</h3>
-          <p>Menlo Park · $45/hr</p>
-          <div class="job-actions">
-            <a class="button" href="detail.html">View Details</a>
-            <a class="button secondary-button" href="applications.html">Save</a>
-          </div>
-        </article>
-      </section>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <div class="container footer-layout">
-      <p>&copy; 2026 JobTrack</p>
-      <nav aria-label="Footer navigation" class="footer-nav">
-        <a href="landing.html">Landing</a>
-        <a href="index.html">Dashboard</a>
-        <a href="jobs.html">Jobs</a>
-        <a href="applications.html">Applications</a>
-        <a href="analytics.html">Analytics</a>
-      </nav>
-    </div>
-  </footer>
-</body>
-</html>
