@@ -1,0 +1,57 @@
+import { Link } from 'react-router';
+import { features, steps } from '../data/features';
+
+function LandingPage() {
+  return (
+    <main>
+      <section className="hero">
+        <div className="container hero-layout">
+          <div>
+            <p className="muted-text"><strong>Your job search, organized and visualized</strong></p>
+            <h1>Your Job Search, Organized &amp; Visualized</h1>
+            <p>Track saved jobs, applications, interviews, notes, and deadlines in one place so you can spend less time organizing and more time applying.</p>
+            <div className="hero-actions">
+              <Link className="button" to="/auth">Get Started Free</Link>
+              <a className="button secondary-button" href="#how-it-works">How It Works</a>
+            </div>
+          </div>
+          <img className="hero-image decorative-image" src="/img/dashboard-preview.svg" alt="" aria-hidden="true" />
+        </div>
+      </section>
+
+      <section id="features" className="page-section">
+        <div className="container">
+          <h2>Key Features</h2>
+          <div className="feature-grid">
+            {features.map(function(feature) {
+              return (
+                <article className="card feature-card" key={feature.id}>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.text}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section id="how-it-works" className="page-section">
+        <div className="container">
+          <h2>How It Works</h2>
+          <div className="step-grid">
+            {steps.map(function(step) {
+              return (
+                <article className="card step-card" key={step.id}>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+export default LandingPage;
