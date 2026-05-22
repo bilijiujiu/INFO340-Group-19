@@ -93,65 +93,137 @@
             </div>
           </form>
         </section>
-      </seciton>
+      </section>
 
       <section class="job-board-layout">
-        <div class="job-list">
-          <article class="card job-card featured-job">
-            <p class="job-company">Google</p>
-            <h3>Software Engineer Intern</h3>
-            <p>Seattle · Hybrid · $50/hr</p>
-            <div class="tag-row">
-              <span class="tag">Internship</span>
-              <span class="tag">Visa Sponsorship</span>
-              <span class="tag">Deadline Soon</span>
-            </div>
-            <div class="job-actions">
-              <a class="button" href="detail.html">View Details</a>
-              <a class="button secondary-button" href="applications.html">Track Job</a>
-            </div>
-          </article>
-    
-          <article class="card job-card">
-            <p class="job-company">Stripe</p>
-            <h3>Frontend Engineer</h3>
-            <p>San Francisco · Full-time · $140k+</p>
-            <div class="tag-row">
-              <span class="tag">Frontend</span>
-              <span class="tag">Entry Level</span>
-            </div>
-            <div class="job-actions">
-              <a class="button" href="detail.html">View Details</a>
-              <a class="button secondary-button" href="applications.html">Track Job</a>
-            </div>
-          </article>
-    
-          <article class="card job-card">
-            <p class="job-company">Airbnb</p>
-            <h3>Product Designer</h3>
-            <p>Remote · Full-time · $120k</p>
-            <div class="tag-row">
-              <span class="tag">Remote</span>
-              <span class="tag">Design</span>
-            </div>
-            <div class="job-actions">
-              <a class="button" href="detail.html">View Details</a>
-              <a class="button secondary-button" href="applications.html">Track Job</a>
-            </div>
-          </article>
-    
-          <article class="card job-card">
-            <p class="job-company">Meta</p>
-            <h3>Data Analyst</h3>
-            <p>Menlo Park · Internship · $45/hr</p>
-            <div class="tag-row">
-              <span class="tag">Data</span>
-              <span class="tag">Internship</span>
-            </div>
-            <div class="job-actions">
-              <a class="button" href="detail.html">View Details</a>
-              <a class="button secondary-button" href="applications.html">Track Job</a>
-            </div>
-          </article>
-        </div>
+        <div id="jobs-root"></div>
       </section>
+      
+      <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+      <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+      <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+      
+      <script type="text/babel">
+        function JobsApp() {
+          const [search, setSearch] = React.useState("");
+          const [filter, setFilter] = React.useState("All Jobs");
+      
+          const jobs = [
+            {
+              company: "Google",
+              title: "Software Engineer Intern",
+              location: "Seattle",
+              workType: "Hybrid",
+              pay: "$50/hr",
+              tags: ["Internship", "Visa Sponsorship", "Deadline Soon"]
+            },
+            {
+              company: "Stripe",
+              title: "Frontend Engineer",
+              location: "San Francisco",
+              workType: "Full-time",
+              pay: "$140k+",
+              tags: ["Frontend", "Entry Level"]
+            },
+            {
+              company: "Airbnb",
+              title: "Product Designer",
+              location: "Remote",
+              workType: "Full-time",
+              pay: "$120k",
+              tags: ["Remote", "Design"]
+            },
+            {
+              company: "Meta",
+              title: "Data Analyst",
+              location: "Menlo Park",
+              workType: "Internship",
+              pay: "$45/hr",
+              tags: ["Data", "Internship"]
+            }
+          ];
+      
+          const filteredJobs = jobs.filter((job) => {
+            const searchText = search.toLowerCase();
+      
+            const matchesSearch =
+              job.company.toLowerCase().includes(searchText) ||
+              job.title.toLowerCase().includes(searchText) ||
+              job.location.toLowerCase().includes(searchText) ||
+              job.tags.join(" ").toLowerCase().includes(searchText);
+      
+            const matchesFilter =
+              filter === "All Jobs" ||
+              job.location === filter ||
+              job.workType === filter ||
+              job.tags.includes(filter);
+      
+            return matchesSearch && matchesFilter;
+          });
+      
+          return (
+            <div>
+              <section className="card panel">
+                <div className="search-bar">
+                  <input
+                    id="job-search"
+                    type="search"
+                    placeholder="Search jobs..."
+                    value={search}
+                    onChange={(event) => setSearch(event.target.value)}
+                  />
+                  <button className="button" type="button">Search</button>
+                </div>
+      
+                <div className="Filter" aria-label="Quick Filter">
+                  {["All Jobs", "Remote", "Internship", "Visa Sponsorship", "Seattle"].map((item) => (
+                    <button
+                      key={item}
+                      className="job"
+                      type="button"
+                      onClick={() => setFilter(item)}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </section>
+      
+              <div className="job-list">
+                {filteredJobs.map((job, index) => (
+                  <article className="card job-card" key={index}>
+                    <p className="job-company">{job.company}</p>
+                    <h3>{job.title}</h3>
+                    <p>{job.location} · {job.workType} · {job.pay}</p>
+      
+                    <div className="tag-row">
+                      {job.tags.map((tag) => (
+                        <span className="tag" key={tag}>{tag}</span>
+                      ))}
+                    </div>
+      
+                    <div className="job-actions">
+                      <a className="button" href="detail.html">View Details</a>
+                      <button
+                        className="button secondary-button"
+                        type="button"
+                        onClick={(event) => {
+                          event.target.textContent = "Tracked";
+                        }}
+                      >
+                        Track Job
+                      </button>
+                    </div>
+                  </article>
+                ))}
+      
+                {filteredJobs.length === 0 && (
+                  <p className="muted-text">No jobs found.</p>
+                )}
+              </div>
+            </div>
+          );
+        }
+      
+        ReactDOM.createRoot(document.getElementById("jobs-root")).render(<JobsApp />);
+      </script>

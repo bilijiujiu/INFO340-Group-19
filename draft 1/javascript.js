@@ -1,1 +1,1 @@
-const API = 'AIzaSyDu9XS6asDFlTDCAZlNg73GPST2icWrvNE'
+process.env.GEMINI_API_KEY
