@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import PageLayout from '../components/PageLayout';
 
 function SettingsPage() {
-  const [displayName, setDisplayName] = useState('Peitong');
+  const [displayName, setDisplayName] = useState('Pengyu');
   const [school, setSchool] = useState('University of Washington');
   const [profileMessage, setProfileMessage] = useState('');
 

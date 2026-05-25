@@ -13,7 +13,6 @@ import AnalyticsPage from './pages/AnalyticsPage';
 import AddJobPage from './pages/AddJobPage';
 import SettingsPage from './pages/SettingsPage';
 import NotFoundPage from './pages/NotFoundPage';
-import AIChat from './components/AIChat';
 
 function App() {
   const [jobs, setJobs] = useState(startingJobs);
@@ -38,7 +37,6 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
-      <AIChat />
     </>
   );
 }

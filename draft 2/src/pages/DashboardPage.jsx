@@ -29,7 +29,7 @@ function DashboardPage(props) {
     <PageLayout>
       <div className="page-heading">
         <div>
-          <h1>Welcome back, Peitong!</h1>
+          <h1>Welcome back!</h1>
           <p className="muted-text">You have several jobs that need attention this week.</p>
         </div>
         <Link className="button" to="/add-job">+ Add Job</Link>
