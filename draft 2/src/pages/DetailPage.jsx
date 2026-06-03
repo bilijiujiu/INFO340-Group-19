@@ -18,6 +18,14 @@ function DetailPage(props) {
     setSavedNote(notes);
   }
 
+  const statusItems = statuses.map(function(status) {
+    return <li key={status}>{status}</li>;
+  });
+
+  const taskItems = tasks.map(function(task) {
+    return <li key={task}>{task}</li>;
+  });
+
   return (
     <PageLayout>
       <div className="page-heading">
@@ -51,9 +59,7 @@ function DetailPage(props) {
           <h2>Workspace</h2>
           <h3>Status</h3>
           <ul className="status-list">
-            {statuses.map(function(status) {
-              return <li key={status}>{status}</li>;
-            })}
+            {statusItems}
           </ul>
 
           <form className="form-stack" onSubmit={handleSubmit}>
@@ -78,9 +84,7 @@ function DetailPage(props) {
 
           <h3>Tasks</h3>
           <ul className="task-list">
-            {tasks.map(function(task) {
-              return <li key={task}>{task}</li>;
-            })}
+            {taskItems}
           </ul>
           <Link className="button secondary-button" to="/add-job">+ Add Task</Link>
         </section>

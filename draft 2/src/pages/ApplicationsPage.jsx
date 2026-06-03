@@ -26,6 +26,31 @@ function ApplicationsPage(props) {
     }
   ];
 
+  const applicationColumns = statuses.map(function(status) {
+    const statusJobs = props.jobs.filter(function(job) {
+      return job.status === status.title;
+    });
+
+    let buttonText = '+ Add card';
+    let buttonLink = '/add-job';
+
+    if (status.title === 'Interview' || status.title === 'Offer') {
+      buttonText = 'View workspace';
+      buttonLink = '/detail';
+    }
+
+    return (
+      <ApplicationColumn
+        key={status.title}
+        title={status.title}
+        icon={status.icon}
+        jobs={statusJobs}
+        buttonText={buttonText}
+        buttonLink={buttonLink}
+      />
+    );
+  });
+
   return (
     <PageLayout>
       <div className="page-heading">
@@ -37,30 +62,7 @@ function ApplicationsPage(props) {
       </div>
 
       <section className="kanban-board">
-        {statuses.map(function(status) {
-          const statusJobs = props.jobs.filter(function(job) {
-            return job.status === status.title;
-          });
-
-          let buttonText = '+ Add card';
-          let buttonLink = '/add-job';
-
-          if (status.title === 'Interview' || status.title === 'Offer') {
-            buttonText = 'View workspace';
-            buttonLink = '/detail';
-          }
-
-          return (
-            <ApplicationColumn
-              key={status.title}
-              title={status.title}
-              icon={status.icon}
-              jobs={statusJobs}
-              buttonText={buttonText}
-              buttonLink={buttonLink}
-            />
-          );
-        })}
+        {applicationColumns}
       </section>
     </PageLayout>
   );

@@ -54,6 +54,34 @@ function AnalyticsPage(props) {
     { id: 2, label: 'No sponsorship', count: countJobsByVisa('No sponsorship') }
   ];
 
+  const statCards = analyticsStats.map(function(stat) {
+    return <StatCard key={stat.id} value={stat.value} label={stat.label} />;
+  });
+
+  const statusBars = statusRows.map(function(row) {
+    return (
+      <div key={row.id}>
+        <BarRow label={row.label + ' (' + row.count + ')'} percent={getPercent(row.count)} />
+      </div>
+    );
+  });
+
+  const educationBars = educationRows.map(function(row) {
+    return <BarRow key={row.id} label={row.label} percent={row.percent} />;
+  });
+
+  const locationBars = locationRows.map(function(row) {
+    return <BarRow key={row.id} label={row.label} percent={row.percent} />;
+  });
+
+  const visaBars = visaRows.map(function(row) {
+    return (
+      <div key={row.id}>
+        <BarRow label={row.label + ' (' + row.count + ')'} percent={getPercent(row.count)} />
+      </div>
+    );
+  });
+
   return (
     <PageLayout>
       <div className="page-heading">
@@ -89,22 +117,14 @@ function AnalyticsPage(props) {
       </section>
 
       <section className="stats-grid">
-        {analyticsStats.map(function(stat) {
-          return <StatCard key={stat.id} value={stat.value} label={stat.label} />;
-        })}
+        {statCards}
       </section>
 
       <section className="analytics-grid">
         <article className="card">
           <h2>Application Status Distribution</h2>
           <div className="bar-list">
-            {statusRows.map(function(row) {
-              return (
-                <div key={row.id}>
-                  <BarRow label={row.label + ' (' + row.count + ')'} percent={getPercent(row.count)} />
-                </div>
-              );
-            })}
+            {statusBars}
           </div>
           <p className="muted-text">This chart summarizes how many saved jobs are in each application stage.</p>
         </article>
@@ -112,31 +132,21 @@ function AnalyticsPage(props) {
         <article className="card">
           <h2>Education Level</h2>
           <div className="bar-list">
-            {educationRows.map(function(row) {
-              return <BarRow key={row.id} label={row.label} percent={row.percent} />;
-            })}
+            {educationBars}
           </div>
         </article>
 
         <article className="card">
           <h2>Top Locations</h2>
           <div className="bar-list">
-            {locationRows.map(function(row) {
-              return <BarRow key={row.id} label={row.label} percent={row.percent} />;
-            })}
+            {locationBars}
           </div>
         </article>
 
         <article className="card">
           <h2>Visa Sponsorship</h2>
           <div className="bar-list">
-            {visaRows.map(function(row) {
-              return (
-                <div key={row.id}>
-                  <BarRow label={row.label + ' (' + row.count + ')'} percent={getPercent(row.count)} />
-                </div>
-              );
-            })}
+            {visaBars}
           </div>
           <p className="muted-text">This chart helps users quickly see which saved jobs may support visa sponsorship.</p>
         </article>

@@ -62,6 +62,10 @@ function JobsPage(props) {
 
   const filteredJobs = props.jobs.filter(jobMatches);
 
+  const jobCards = filteredJobs.map(function(job) {
+    return <JobCard key={job.id} job={job} onSave={function() { handleSave(job); }} />;
+  });
+
   return (
     <PageLayout>
       <div className="page-heading">
@@ -146,9 +150,7 @@ function JobsPage(props) {
       <p className="muted-text">{filteredJobs.length} jobs found</p>
 
       <section className="job-grid">
-        {filteredJobs.map(function(job) {
-          return <JobCard key={job.id} job={job} onSave={function() { handleSave(job); }} />;
-        })}
+        {jobCards}
       </section>
 
       {filteredJobs.length === 0 && (

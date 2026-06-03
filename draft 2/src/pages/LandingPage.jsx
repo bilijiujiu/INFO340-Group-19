@@ -2,6 +2,24 @@ import { Link } from 'react-router';
 import { features, steps } from '../data/features';
 
 function LandingPage() {
+  const featureCards = features.map(function(feature) {
+    return (
+      <article className="card feature-card" key={feature.id}>
+        <h3>{feature.title}</h3>
+        <p>{feature.text}</p>
+      </article>
+    );
+  });
+
+  const stepCards = steps.map(function(step) {
+    return (
+      <article className="card step-card" key={step.id}>
+        <h3>{step.title}</h3>
+        <p>{step.text}</p>
+      </article>
+    );
+  });
+
   return (
     <main>
       <section className="hero">
@@ -23,14 +41,7 @@ function LandingPage() {
         <div className="container">
           <h2>Key Features</h2>
           <div className="feature-grid">
-            {features.map(function(feature) {
-              return (
-                <article className="card feature-card" key={feature.id}>
-                  <h3>{feature.title}</h3>
-                  <p>{feature.text}</p>
-                </article>
-              );
-            })}
+            {featureCards}
           </div>
         </div>
       </section>
@@ -39,14 +50,7 @@ function LandingPage() {
         <div className="container">
           <h2>How It Works</h2>
           <div className="step-grid">
-            {steps.map(function(step) {
-              return (
-                <article className="card step-card" key={step.id}>
-                  <h3>{step.title}</h3>
-                  <p>{step.text}</p>
-                </article>
-              );
-            })}
+            {stepCards}
           </div>
         </div>
       </section>

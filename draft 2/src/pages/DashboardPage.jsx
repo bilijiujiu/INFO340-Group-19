@@ -25,6 +25,30 @@ function DashboardPage(props) {
     }
   ];
 
+  const summaryCards = summaryStats.map(function(stat) {
+    return <StatCard key={stat.id} value={stat.value} label={stat.label} />;
+  });
+
+  const recentJobRows = recentJobs.map(function(job) {
+    return (
+      <tr key={job.id}>
+        <td>
+          <div className="company-heading table-company-heading">
+            <img className="company-logo table-company-logo" src={job.logo} alt="" aria-hidden="true" />
+            <span>{job.company}</span>
+          </div>
+        </td>
+        <td>{job.role}</td>
+        <td>{job.status}</td>
+        <td>{job.date}</td>
+      </tr>
+    );
+  });
+
+  const quickInsightCards = quickInsights.map(function(stat) {
+    return <StatCard key={stat.id} value={stat.value} label={stat.label} />;
+  });
+
   return (
     <PageLayout>
       <div className="page-heading">
@@ -36,9 +60,7 @@ function DashboardPage(props) {
       </div>
 
       <section className="stats-grid">
-        {summaryStats.map(function(stat) {
-          return <StatCard key={stat.id} value={stat.value} label={stat.label} />;
-        })}
+        {summaryCards}
       </section>
 
       <section className="card">
@@ -54,21 +76,7 @@ function DashboardPage(props) {
               </tr>
             </thead>
             <tbody>
-              {recentJobs.map(function(job) {
-                return (
-                  <tr key={job.id}>
-                    <td>
-                      <div className="company-heading table-company-heading">
-                        <img className="company-logo table-company-logo" src={job.logo} alt="" aria-hidden="true" />
-                        <span>{job.company}</span>
-                      </div>
-                    </td>
-                    <td>{job.role}</td>
-                    <td>{job.status}</td>
-                    <td>{job.date}</td>
-                  </tr>
-                );
-              })}
+              {recentJobRows}
             </tbody>
           </table>
         </div>
@@ -77,9 +85,7 @@ function DashboardPage(props) {
       <section>
         <h2>Quick Insights</h2>
         <div className="stats-grid">
-          {quickInsights.map(function(stat) {
-            return <StatCard key={stat.id} value={stat.value} label={stat.label} />;
-          })}
+          {quickInsightCards}
         </div>
       </section>
     </PageLayout>
