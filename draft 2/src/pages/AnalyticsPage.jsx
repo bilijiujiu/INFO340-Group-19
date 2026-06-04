@@ -1,84 +1,89 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
 import PageLayout from '../components/PageLayout';
 import StatCard from '../components/StatCard';
 import BarRow from '../components/BarRow';
-import { analyticsStats } from '../data/stats';
+import { analyticsData } from '../data/analytics';
 
-function AnalyticsPage(props) {
-  const educationRows = [
-    { id: 1, label: 'Bachelor', percent: 33 },
-    { id: 2, label: 'PhD', percent: 30 },
-    { id: 3, label: 'Master', percent: 36 }
-  ];
+function AnalyticsPage() {
+  const [selectedType, setSelectedType] = useState('All job types');
+  const [selectedCompany, setSelectedCompany] = useState('All companies');
 
-  const locationRows = [
-    { id: 1, label: 'San Francisco, CA', percent: 25 },
-    { id: 2, label: 'Los Angeles, CA', percent: 20 },
-    { id: 3, label: 'New York', percent: 18 }
-  ];
+  function handleTypeChange(event) {
+    const newType = event.target.value;
 
-  function countJobsByStatus(statusName) {
-    const matchingJobs = props.jobs.filter(function(job) {
-      return job.status === statusName;
+    const matchingType = analyticsData.find(function(item) {
+      return item.type === newType;
     });
 
-    return matchingJobs.length;
-  }
+    setSelectedType(newType);
 
-  function countJobsByVisa(visaText) {
-    const matchingJobs = props.jobs.filter(function(job) {
-      return job.sponsorship === visaText;
-    });
-
-    return matchingJobs.length;
-  }
-
-  function getPercent(count) {
-    if (props.jobs.length === 0) {
-      return 0;
+    if (matchingType) {
+      setSelectedCompany(matchingType.companies[0].name);
     }
-
-    return Math.round((count / props.jobs.length) * 100);
   }
 
-  const statusRows = [
-    { id: 1, label: 'Saved', count: countJobsByStatus('Saved') },
-    { id: 2, label: 'Applied', count: countJobsByStatus('Applied') },
-    { id: 3, label: 'Interview', count: countJobsByStatus('Interview') },
-    { id: 4, label: 'Offer', count: countJobsByStatus('Offer') },
-    { id: 5, label: 'Rejected', count: countJobsByStatus('Rejected') }
-  ];
+  function handleCompanyChange(event) {
+    setSelectedCompany(event.target.value);
+  }
 
-  const visaRows = [
-    { id: 1, label: 'Sponsors visa', count: countJobsByVisa('Sponsors visa') },
-    { id: 2, label: 'No sponsorship', count: countJobsByVisa('No sponsorship') }
-  ];
-
-  const statCards = analyticsStats.map(function(stat) {
-    return <StatCard key={stat.id} value={stat.value} label={stat.label} />;
+  const selectedTypeData = analyticsData.find(function(item) {
+    return item.type === selectedType;
   });
 
-  const statusBars = statusRows.map(function(row) {
+  const currentTypeData = selectedTypeData || analyticsData[0];
+
+  const selectedCompanyData = currentTypeData.companies.find(function(company) {
+    return company.name === selectedCompany;
+  });
+
+  const currentCompanyData = selectedCompanyData || currentTypeData.companies[0];
+
+  const typeOptions = analyticsData.map(function(item) {
     return (
-      <div key={row.id}>
-        <BarRow label={row.label + ' (' + row.count + ')'} percent={getPercent(row.count)} />
-      </div>
+      <option key={item.id} value={item.type}>
+        {item.type}
+      </option>
     );
   });
 
-  const educationBars = educationRows.map(function(row) {
-    return <BarRow key={row.id} label={row.label} percent={row.percent} />;
-  });
-
-  const locationBars = locationRows.map(function(row) {
-    return <BarRow key={row.id} label={row.label} percent={row.percent} />;
-  });
-
-  const visaBars = visaRows.map(function(row) {
+  const companyOptions = currentTypeData.companies.map(function(company) {
     return (
-      <div key={row.id}>
-        <BarRow label={row.label + ' (' + row.count + ')'} percent={getPercent(row.count)} />
-      </div>
+      <option key={company.id} value={company.name}>
+        {company.name}
+      </option>
+    );
+  });
+
+  const statCards = currentCompanyData.stats.map(function(stat) {
+    return <StatCard key={stat.id} value={stat.value} label={stat.label} />;
+  });
+
+  const statusBars = currentCompanyData.statusRows.map(function(row) {
+    return (
+      <BarRow
+        key={row.id}
+        label={row.label + ' (' + row.count + ')'}
+        percent={row.percent}
+      />
+    );
+  });
+
+  const educationBars = currentCompanyData.educationRows.map(function(row) {
+    return <BarRow key={row.id} label={row.label} percent={row.percent} />;
+  });
+
+  const locationBars = currentCompanyData.locationRows.map(function(row) {
+    return <BarRow key={row.id} label={row.label} percent={row.percent} />;
+  });
+
+  const visaBars = currentCompanyData.visaRows.map(function(row) {
+    return (
+      <BarRow
+        key={row.id}
+        label={row.label + ' (' + row.count + ')'}
+        percent={row.percent}
+      />
     );
   });
 
@@ -87,7 +92,9 @@ function AnalyticsPage(props) {
       <div className="page-heading">
         <div>
           <h1>Analytics &amp; Insight</h1>
-          <p className="muted-text">Review job search patterns based on the jobs currently saved in JobTrack.</p>
+          <p className="muted-text">
+            Review job search patterns based on the selected job type and company.
+          </p>
         </div>
         <Link className="button" to="/jobs">Search More Jobs</Link>
       </div>
@@ -95,23 +102,34 @@ function AnalyticsPage(props) {
       <section className="card">
         <div>
           <h2>Analytics Filters</h2>
-          <p className="muted-text">Choose a job type or company to imagine how future analytics could be filtered.</p>
+          <p className="muted-text">
+            Choose a job type and company to update the analytics data shown below.
+          </p>
         </div>
+
         <form className="form-stack">
-          <div className="settings-grid">
-            <div className="form-row">
-              <label htmlFor="preferred-type">Preferred Job Type</label>
-              <select id="preferred-type" name="preferred-type">
-                <option>All job types</option>
-                <option>Software Engineering</option>
-                <option>Data Analyst</option>
-                <option>Product / UX</option>
-              </select>
-            </div>
-            <div className="form-row">
-              <label htmlFor="company-filter">Company</label>
-              <input id="company-filter" name="company-filter" type="text" placeholder="Company" />
-            </div>
+          <div className="form-row">
+            <label htmlFor="preferred-type">Preferred Job Type</label>
+            <select
+              id="preferred-type"
+              name="preferred-type"
+              value={selectedType}
+              onChange={handleTypeChange}
+            >
+              {typeOptions}
+            </select>
+          </div>
+
+          <div className="form-row">
+            <label htmlFor="preferred-company">Company</label>
+            <select
+              id="preferred-company"
+              name="preferred-company"
+              value={selectedCompany}
+              onChange={handleCompanyChange}
+            >
+              {companyOptions}
+            </select>
           </div>
         </form>
       </section>
@@ -126,7 +144,9 @@ function AnalyticsPage(props) {
           <div className="bar-list">
             {statusBars}
           </div>
-          <p className="muted-text">This chart summarizes how many saved jobs are in each application stage.</p>
+          <p className="muted-text">
+            This chart summarizes how many saved jobs are in each application stage.
+          </p>
         </article>
 
         <article className="card">
@@ -148,7 +168,9 @@ function AnalyticsPage(props) {
           <div className="bar-list">
             {visaBars}
           </div>
-          <p className="muted-text">This chart helps users quickly see which saved jobs may support visa sponsorship.</p>
+          <p className="muted-text">
+            This chart helps users quickly see which jobs may support visa sponsorship.
+          </p>
         </article>
       </section>
     </PageLayout>
