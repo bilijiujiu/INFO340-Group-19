@@ -5,20 +5,38 @@ function JobCard(props) {
 
   return (
     <article className="card job-card">
-      <div className="company-heading">
-        <img className="company-logo" src={job.logo} alt="" aria-hidden="true" />
+      <header className="company-heading">
+        <img 
+          className="company-logo" 
+          src={job.logo} 
+          alt={`${job.company} logo`} 
+        />
+
         <div>
-          <h3>{job.company}</h3>
-          <p className="job-role">{job.role}</p>
+          <p className="company-name">{job.company}</p>
+          <h3 className="job-title">{job.role}</h3>
         </div>
+      </header>
+
+      <div className="job-meta">
+        <span>{job.location}</span>    <span>{job.salary}</span>    <span>{job.experience}</span>
       </div>
 
-      <p>{job.location} · {job.salary} · {job.experience}</p>
-      <p className="muted-text">{job.sponsorship}</p>
+      <p className="sponsorship-badge">{job.sponsorship}</p>
 
       <div className="job-actions">
-        <Link className="button" to="/detail">View Details</Link>
-        <button className="button secondary-button" type="button" onClick={props.onSave}>Save</button>
+        <Link className="button" to={`/jobs/${job.id}`}>
+          View Details
+        </Link>
+
+        <button 
+          className="button secondary-button" 
+          type="button" 
+          onClick={() => props.onSave(job)}
+          aria-label={`Save ${job.role} at ${job.company}`}
+        >
+          Save
+        </button>
       </div>
     </article>
   );
