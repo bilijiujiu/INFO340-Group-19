@@ -47,6 +47,7 @@ function JobsPage(props) {
   function jobMatches(job) {
     const lowerSearch = searchTerm.toLowerCase();
     const titleCompanyText = (job.company + ' ' + job.role).toLowerCase();
+
     const matchesSearch = titleCompanyText.includes(lowerSearch);
     const matchesLocation = locationFilter === 'Any location' || job.location === locationFilter;
     const matchesSalary = salaryFilter === 'Any salary' || job.salaryRange === salaryFilter;
@@ -63,7 +64,15 @@ function JobsPage(props) {
   const filteredJobs = props.jobs.filter(jobMatches);
 
   const jobCards = filteredJobs.map(function(job) {
-    return <JobCard key={job.id} job={job} onSave={function() { handleSave(job); }} />;
+    return (
+      <JobCard
+        key={job.id}
+        job={job}
+        onSave={function() {
+          handleSave(job);
+        }}
+      />
+    );
   });
 
   return (
@@ -81,6 +90,7 @@ function JobsPage(props) {
           <h2>Search Jobs</h2>
           <p className="muted-text">Use filters to narrow down the job listings in this mock database.</p>
         </div>
+
         <form className="form-stack" onSubmit={handleSubmit}>
           <div className="search-row">
             <div className="form-row">
@@ -113,6 +123,7 @@ function JobsPage(props) {
                 <option>Chicago</option>
               </select>
             </div>
+
             <div className="form-row">
               <label htmlFor="salary">Salary Range</label>
               <select id="salary" name="salary" value={salaryFilter} onChange={handleSalaryChange}>
@@ -122,6 +133,7 @@ function JobsPage(props) {
                 <option>$140k+</option>
               </select>
             </div>
+
             <div className="form-row">
               <label htmlFor="experience">Experience Level</label>
               <select id="experience" name="experience" value={experienceFilter} onChange={handleExperienceChange}>
@@ -131,6 +143,7 @@ function JobsPage(props) {
                 <option>Mid level</option>
               </select>
             </div>
+
             <div className="form-row">
               <label htmlFor="sponsorship">Visa Sponsorship</label>
               <select id="sponsorship" name="sponsorship" value={sponsorshipFilter} onChange={handleSponsorshipChange}>
@@ -140,13 +153,17 @@ function JobsPage(props) {
               </select>
             </div>
           </div>
+
           <div className="filter-actions">
-            <button className="button secondary-button" type="button" onClick={handleReset}>Reset Filters</button>
+            <button className="button secondary-button" type="button" onClick={handleReset}>
+              Reset Filters
+            </button>
           </div>
         </form>
       </section>
 
       {savedMessage !== '' && <p className="data-note">{savedMessage}</p>}
+
       <p className="muted-text">{filteredJobs.length} jobs found</p>
 
       <section className="job-grid">

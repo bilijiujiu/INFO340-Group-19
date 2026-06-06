@@ -5,9 +5,19 @@ import PageLayout from '../components/PageLayout';
 function DetailPage(props) {
   const [notes, setNotes] = useState('');
   const [savedNote, setSavedNote] = useState('');
+
   const job = props.jobs[0];
+
   const tasks = ['Send thank-you email', 'Coding challenge', 'Mock interview prep'];
   const statuses = ['Saved', 'Applied', 'Interview', 'Offer'];
+
+  const statusItems = statuses.map(function(status) {
+    return <li key={status}>{status}</li>;
+  });
+
+  const taskItems = tasks.map(function(task) {
+    return <li key={task}>{task}</li>;
+  });
 
   function handleNotesChange(event) {
     setNotes(event.target.value);
@@ -17,14 +27,6 @@ function DetailPage(props) {
     event.preventDefault();
     setSavedNote(notes);
   }
-
-  const statusItems = statuses.map(function(status) {
-    return <li key={status}>{status}</li>;
-  });
-
-  const taskItems = tasks.map(function(task) {
-    return <li key={task}>{task}</li>;
-  });
 
   return (
     <PageLayout>
@@ -50,13 +52,17 @@ function DetailPage(props) {
           <p><strong>Location:</strong> {job.location}</p>
           <p><strong>Deadline:</strong> {job.deadline}</p>
           <p><strong>Source:</strong> {job.source}</p>
+
           <img className="info-image decorative-image" src="/img/workspace.svg" alt="" aria-hidden="true" />
+
           <p className="muted-text">{job.description}</p>
+
           <Link className="button secondary-button" to="/jobs">View on Job Board</Link>
         </section>
 
         <section className="card">
           <h2>Workspace</h2>
+
           <h3>Status</h3>
           <ul className="status-list">
             {statusItems}
@@ -73,6 +79,7 @@ function DetailPage(props) {
                 onChange={handleNotesChange}
               ></textarea>
             </div>
+
             <button className="button" type="submit">Save Note</button>
           </form>
 
@@ -86,6 +93,7 @@ function DetailPage(props) {
           <ul className="task-list">
             {taskItems}
           </ul>
+
           <Link className="button secondary-button" to="/add-job">+ Add Task</Link>
         </section>
       </div>

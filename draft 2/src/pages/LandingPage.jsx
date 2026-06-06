@@ -33,6 +33,7 @@ function LandingPage() {
               <a className="button secondary-button" href="#how-it-works">How It Works</a>
             </div>
           </div>
+
           <img className="hero-image decorative-image" src="/img/dashboard-preview.svg" alt="" aria-hidden="true" />
         </div>
       </section>
