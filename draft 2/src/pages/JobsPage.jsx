@@ -156,6 +156,10 @@ function JobsPage(props) {
                 <option>Sunnyvale</option>
                 <option>Austin</option>
                 <option>Chicago</option>
+                <option>San Jose</option>
+                <option>Mountain View</option>
+                <option>Cupertino</option>
+                <option>Menlo Park</option>
               </select>
             </div>
 
