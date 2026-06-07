@@ -10,8 +10,8 @@ function JobsPage(props) {
   const [experienceFilter, setExperienceFilter] = useState('Any level');
   const [sponsorshipFilter, setSponsorshipFilter] = useState('Any');
   const [savedMessage, setSavedMessage] = useState('');
-  const [deleteMessage, setDeleteMessage] = useState('');
-  const [deleteError, setDeleteError] = useState('');
+  const [saveError, setSaveError] = useState('');
+  const [savingJobId, setSavingJobId] = useState('');
 
   function handleSearchChange(event) {
     setSearchTerm(event.target.value);
@@ -44,8 +44,17 @@ function JobsPage(props) {
     setExperienceFilter('Any level');
     setSponsorshipFilter('Any');
     setSavedMessage('');
-    setDeleteMessage('');
-    setDeleteError('');
+    setSaveError('');
+  }
+
+  function applicationMatchesListing(application, listing) {
+    return application.sourceJobId === listing.id;
+  }
+
+  function jobIsSaved(job) {
+    return props.applications.some(function(application) {
+      return applicationMatchesListing(application, job);
+    });
   }
 
   function jobMatches(job) {
@@ -57,29 +66,32 @@ function JobsPage(props) {
     const matchesSalary = salaryFilter === 'Any salary' || job.salaryRange === salaryFilter;
     const matchesExperience = experienceFilter === 'Any level' || job.experience === experienceFilter;
     const matchesSponsorship = sponsorshipFilter === 'Any' || job.sponsorship === sponsorshipFilter;
+    const isNotSaved = !jobIsSaved(job);
 
-    return matchesSearch && matchesLocation && matchesSalary && matchesExperience && matchesSponsorship;
+    return matchesSearch && matchesLocation && matchesSalary && matchesExperience && matchesSponsorship && isNotSaved;
   }
 
   function handleSave(job) {
-    setSavedMessage(job.company + ' — ' + job.role + ' was saved to your tracker.');
-    setDeleteMessage('');
-    setDeleteError('');
-  }
-
-  function handleDelete(job) {
-    const jobKey = job.key || job.id;
+    const savedJob = {
+      ...job,
+      sourceJobId: job.id,
+      status: 'Saved',
+      date: 'Today',
+      notes: ''
+    };
 
     setSavedMessage('');
-    setDeleteMessage('');
-    setDeleteError('');
+    setSaveError('');
+    setSavingJobId(job.id);
 
-    props.onDeleteJob(jobKey)
+    props.onSaveJob(savedJob)
       .then(function() {
-        setDeleteMessage(job.company + ' — ' + job.role + ' was deleted.');
+        setSavedMessage(job.company + ' — ' + job.role + ' was saved to your applications.');
+        setSavingJobId('');
       })
       .catch(function(error) {
-        setDeleteError('The job could not be deleted: ' + error.message);
+        setSaveError('The job could not be saved: ' + error.message);
+        setSavingJobId('');
       });
   }
 
@@ -88,13 +100,11 @@ function JobsPage(props) {
   const jobCards = filteredJobs.map(function(job) {
     return (
       <JobCard
-        key={job.key || job.id}
+        key={job.id}
         job={job}
+        isSaving={savingJobId === job.id}
         onSave={function() {
           handleSave(job);
-        }}
-        onDelete={function() {
-          handleDelete(job);
         }}
       />
     );
@@ -105,15 +115,15 @@ function JobsPage(props) {
       <div className="page-heading">
         <div>
           <h1>Job Search &amp; Filter</h1>
-          <p className="muted-text">Search job listings and filter by your preferences.</p>
+          <p className="muted-text">Search open job listings and save the ones you want to track.</p>
         </div>
-        <Link className="button" to="/add-job">+ Add Job</Link>
+        <Link className="button" to="/applications">View Applications</Link>
       </div>
 
       <section className="card search-card">
         <div>
           <h2>Search Jobs</h2>
-          <p className="muted-text">Use filters to narrow down the job listings.</p>
+          <p className="muted-text">Saved listings are removed from this page and added to your applications board.</p>
         </div>
 
         <form className="form-stack" onSubmit={handleSubmit}>
@@ -188,10 +198,9 @@ function JobsPage(props) {
       </section>
 
       {savedMessage !== '' && <p className="data-note">{savedMessage}</p>}
-      {deleteMessage !== '' && <p className="data-note">{deleteMessage}</p>}
-      {deleteError !== '' && <p className="data-note">{deleteError}</p>}
+      {saveError !== '' && <p className="data-note">{saveError}</p>}
 
-      <p className="muted-text">{filteredJobs.length} jobs found</p>
+      <p className="muted-text">{filteredJobs.length} open jobs found</p>
 
       <section className="job-grid">
         {jobCards}
@@ -199,14 +208,8 @@ function JobsPage(props) {
 
       {filteredJobs.length === 0 && (
         <section className="card empty-state">
-          <img
-            className="empty-state-img"
-            src="/img/empty-search.svg"
-            alt=""
-            aria-hidden="true"
-          />
-          <h2>No jobs match these filters</h2>
-          <p>Try changing the search term or selecting a broader filter.</p>
+          <h2>No open jobs match these filters</h2>
+          <p>Try changing the search term, selecting a broader filter, or checking your applications page.</p>
         </section>
       )}
     </PageLayout>

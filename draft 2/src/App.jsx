@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router';
 import { getDatabase, onValue, push as firebasePush, ref, set as firebaseSet } from 'firebase/database';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import searchJobs from './data/searchJobs';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
@@ -106,7 +107,16 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/dashboard" element={<DashboardPage jobs={jobs} />} />
-          <Route path="/jobs" element={<JobsPage jobs={jobs} onDeleteJob={deleteJob} />} />
+          <Route
+            path="/jobs"
+            element={
+              <JobsPage
+                jobs={searchJobs}
+                applications={jobs}
+                onSaveJob={addJob}
+              />
+            }
+          />
           <Route
             path="/jobs/:jobId"
             element={
@@ -130,7 +140,7 @@ function App() {
           />
           <Route path="/analytics" element={<AnalyticsPage jobs={jobs} />} />
           <Route path="/add-job" element={<AddJobPage onAddJob={addJob} nextId={jobs.length + 1} />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/settings" element={<SettingsPage jobs={jobs} />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       )}
