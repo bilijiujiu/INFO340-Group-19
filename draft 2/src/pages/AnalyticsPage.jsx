@@ -1,8 +1,20 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from 'recharts';
 import PageLayout from '../components/PageLayout';
 import StatCard from '../components/StatCard';
-import BarRow from '../components/BarRow';
 import { analyticsData } from '../data/analytics';
 
 function AnalyticsPage() {
@@ -65,30 +77,26 @@ function AnalyticsPage() {
       offerRate: getStatValue(currentCompanyData, 'Offer Rate')
     };
 
-    setCompareItems(function(previousItems) {
-      const alreadyAdded = previousItems.some(function(item) {
-        return item.key === newCompareItem.key;
-      });
-
-      if (alreadyAdded) {
-        setCompareMessage(newCompareItem.company + ' is already in your comparison list.');
-        return previousItems;
-      }
-
-      setCompareMessage(newCompareItem.company + ' was added to your comparison list.');
-      return previousItems.concat(newCompareItem);
+    const alreadyAdded = compareItems.some(function(item) {
+      return item.key === newCompareItem.key;
     });
+
+    if (alreadyAdded) {
+      setCompareMessage(newCompareItem.company + ' is already in your comparison list.');
+    } else {
+      setCompareItems(compareItems.concat(newCompareItem));
+      setCompareMessage(newCompareItem.company + ' was added to your comparison list.');
+    }
   }
 
   function handleRemoveCompare(event) {
     const itemKey = event.currentTarget.value;
 
-    setCompareItems(function(previousItems) {
-      return previousItems.filter(function(item) {
-        return item.key !== itemKey;
-      });
+    const updatedItems = compareItems.filter(function(item) {
+      return item.key !== itemKey;
     });
 
+    setCompareItems(updatedItems);
     setCompareMessage('Company removed from the comparison list.');
   }
 
@@ -117,32 +125,42 @@ function AnalyticsPage() {
     return <StatCard key={stat.id} value={stat.value} label={stat.label} />;
   });
 
-  const statusBars = currentCompanyData.statusRows.map(function(row) {
-    return (
-      <BarRow
-        key={row.id}
-        label={row.label + ' (' + row.count + ')'}
-        percent={row.percent}
-      />
-    );
+  const statusChartData = currentCompanyData.statusRows.map(function(row) {
+    return {
+      label: row.label,
+      count: row.count,
+      percent: row.percent
+    };
   });
 
-  const educationBars = currentCompanyData.educationRows.map(function(row) {
-    return <BarRow key={row.id} label={row.label} percent={row.percent} />;
+  const visaChartData = currentCompanyData.visaRows.map(function(row) {
+    return {
+      label: row.label,
+      count: row.count,
+      percent: row.percent
+    };
   });
 
-  const locationBars = currentCompanyData.locationRows.map(function(row) {
-    return <BarRow key={row.id} label={row.label} percent={row.percent} />;
+  const educationChartData = currentCompanyData.educationRows.map(function(row) {
+    return {
+      label: row.label,
+      percent: row.percent
+    };
   });
 
-  const visaBars = currentCompanyData.visaRows.map(function(row) {
-    return (
-      <BarRow
-        key={row.id}
-        label={row.label + ' (' + row.count + ')'}
-        percent={row.percent}
-      />
-    );
+  const locationChartData = currentCompanyData.locationRows.map(function(row) {
+    return {
+      label: row.label,
+      percent: row.percent
+    };
+  });
+
+  const chartColors = ['#165a72', '#2f7f89', '#5aa6a7', '#8cc7c7', '#c5e8e8'];
+
+  const visaPieSlices = visaChartData.map(function(row, index) {
+    const colorIndex = index % chartColors.length;
+
+    return <Cell key={row.label} fill={chartColors[colorIndex]} />;
   });
 
   const compareRows = compareItems.map(function(item) {
@@ -264,8 +282,16 @@ function AnalyticsPage() {
       <section className="analytics-grid">
         <article className="card">
           <h2>Application Status Distribution</h2>
-          <div className="bar-list">
-            {statusBars}
+          <div className="chart-box">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={statusChartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="label" />
+                <YAxis allowDecimals={false} />
+                <Tooltip />
+                <Bar dataKey="count" name="Applications" fill="#165a72" />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
           <p className="muted-text">
             This chart summarizes how many saved jobs are in each application stage.
@@ -274,25 +300,61 @@ function AnalyticsPage() {
 
         <article className="card">
           <h2>Education Level</h2>
-          <div className="bar-list">
-            {educationBars}
+          <div className="chart-box">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={educationChartData} layout="vertical" margin={{ left: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" domain={[0, 100]} />
+                <YAxis dataKey="label" type="category" width={120} />
+                <Tooltip />
+                <Bar dataKey="percent" name="Percent" fill="#2f7f89" />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
+          <p className="muted-text">
+            This chart shows the education levels most commonly listed for the selected role and company.
+          </p>
         </article>
 
         <article className="card">
           <h2>Top Locations</h2>
-          <div className="bar-list">
-            {locationBars}
+          <div className="chart-box">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={locationChartData} layout="vertical" margin={{ left: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" domain={[0, 100]} />
+                <YAxis dataKey="label" type="category" width={120} />
+                <Tooltip />
+                <Bar dataKey="percent" name="Percent" fill="#5aa6a7" />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
+          <p className="muted-text">
+            This chart shows where the selected company posts the most relevant opportunities.
+          </p>
         </article>
 
         <article className="card">
           <h2>Visa Sponsorship</h2>
-          <div className="bar-list">
-            {visaBars}
+          <div className="chart-box">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={visaChartData}
+                  dataKey="count"
+                  nameKey="label"
+                  outerRadius={90}
+                  label
+                >
+                  {visaPieSlices}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
           <p className="muted-text">
-            This chart helps users quickly see which jobs may support visa sponsorship.
+            This pie chart helps users quickly see which jobs may support visa sponsorship.
           </p>
         </article>
       </section>

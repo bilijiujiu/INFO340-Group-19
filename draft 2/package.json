@@ -12,6 +12,7 @@
     "react-dom": "latest",
     "react-firebaseui": "github:joelwross/firebaseui-web-react",
     "react-router-dom": "latest",
+    "recharts": "^3.8.1",
     "vite": "latest"
   }
 }
