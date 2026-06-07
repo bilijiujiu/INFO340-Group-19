@@ -25,22 +25,40 @@ function LandingPage() {
       <section className="hero">
         <div className="container hero-layout">
           <div>
-            <p className="muted-text"><strong>Your job search, organized and visualized</strong></p>
+            <p className="muted-text">
+              <strong>Your job search, organized and visualized</strong>
+            </p>
+
             <h1>Your Job Search, Organized &amp; Visualized</h1>
-            <p>Track saved jobs, applications, interviews, notes, and deadlines in one place so you can spend less time organizing and more time applying.</p>
+
+            <p>
+              Track saved jobs, applications, interviews, notes, and deadlines in one place
+              so you can spend less time organizing and more time applying.
+            </p>
+
             <div className="hero-actions">
-              <Link className="button" to="/auth">Get Started Free</Link>
-              <a className="button secondary-button" href="#how-it-works">How It Works</a>
+              <Link className="button" to="/auth">Get Started</Link>
             </div>
           </div>
 
-          <img className="hero-image decorative-image" src="/img/dashboard-preview.svg" alt="" aria-hidden="true" />
+          <img
+            className="hero-image decorative-image"
+            src="/img/dashboard-preview.svg"
+            alt=""
+            aria-hidden="true"
+          />
         </div>
       </section>
 
       <section id="features" className="page-section">
         <div className="container">
-          <h2>Key Features</h2>
+          <div className="section-heading">
+            <h2>Key Features</h2>
+            <p className="muted-text">
+              JobTrack helps you move from job search to saved applications and progress tracking.
+            </p>
+          </div>
+
           <div className="feature-grid">
             {featureCards}
           </div>
@@ -49,7 +67,13 @@ function LandingPage() {
 
       <section id="how-it-works" className="page-section">
         <div className="container">
-          <h2>How It Works</h2>
+          <div className="section-heading">
+            <h2>How It Works</h2>
+            <p className="muted-text">
+              Save jobs, track applications, update progress, and review your search patterns.
+            </p>
+          </div>
+
           <div className="step-grid">
             {stepCards}
           </div>

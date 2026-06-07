@@ -1,145 +1,52 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { getAuth, EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
+import StyledFirebaseAuth from 'react-firebaseui/dist/StyledFirebaseAuth';
+import 'firebaseui/dist/firebaseui.css';
 
 function AuthPage() {
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-
-  const [signupName, setSignupName] = useState('');
-  const [signupEmail, setSignupEmail] = useState('');
-  const [signupPassword, setSignupPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
   const navigate = useNavigate();
+  const auth = getAuth();
 
-  function handleLogin(event) {
-    event.preventDefault();
-    navigate('/dashboard');
-  }
+  const FirebaseAuthComponent = StyledFirebaseAuth.default || StyledFirebaseAuth;
 
-  function handleSignup(event) {
-    event.preventDefault();
-    navigate('/dashboard');
-  }
+  const firebaseUIConfig = {
+    signInOptions: [
+      GoogleAuthProvider.PROVIDER_ID,
+      {
+        provider: EmailAuthProvider.PROVIDER_ID,
+        requiredDisplayName: true
+      }
+    ],
+    signInFlow: 'popup',
+    credentialHelper: 'none',
+    callbacks: {
+      signInSuccessWithAuthResult: function() {
+        navigate('/dashboard');
+        return false;
+      }
+    }
+  };
 
   return (
-    <main className="container page-section">
-      <div className="section-heading">
-        <h1>Log In or Sign Up</h1>
-        <p>Enter your information to continue to your JobTrack dashboard.</p>
-      </div>
+    <main className="auth-page-simple">
+      <section className="auth-panel">
+        <div className="auth-logo-row">
+          <img className="jobtrack-logo" src="/img/jobtrack-logo.png" alt="" aria-hidden="true" />
+          <p>JobTrack</p>
+        </div>
 
-      <div className="auth-grid">
-        <section className="card">
-          <h2>Log In</h2>
+        <h1>Welcome to JobTrack</h1>
+        <p className="auth-description">
+          Sign in or create an account to save jobs, track applications,
+          and manage your job search progress.
+        </p>
 
-          <form className="form-stack" onSubmit={handleLogin}>
-            <div className="form-row">
-              <label htmlFor="login-email">Email</label>
-              <input
-                id="login-email"
-                name="login-email"
-                type="email"
-                placeholder="you@example.com"
-                value={loginEmail}
-                onChange={function(event) {
-                  setLoginEmail(event.target.value);
-                }}
-                required
-              />
-            </div>
+        <FirebaseAuthComponent uiConfig={firebaseUIConfig} firebaseAuth={auth} />
 
-            <div className="form-row">
-              <label htmlFor="login-password">Password</label>
-              <input
-                id="login-password"
-                name="login-password"
-                type="password"
-                placeholder="Password"
-                value={loginPassword}
-                onChange={function(event) {
-                  setLoginPassword(event.target.value);
-                }}
-                required
-              />
-            </div>
-
-            <button className="button" type="submit">
-              Log In
-            </button>
-          </form>
-        </section>
-
-        <section className="card">
-          <h2>Create Account</h2>
-
-          <form className="form-stack" onSubmit={handleSignup}>
-            <div className="form-row">
-              <label htmlFor="signup-name">Name</label>
-              <input
-                id="signup-name"
-                name="signup-name"
-                type="text"
-                placeholder="Your name"
-                value={signupName}
-                onChange={function(event) {
-                  setSignupName(event.target.value);
-                }}
-                required
-              />
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="signup-email">Email</label>
-              <input
-                id="signup-email"
-                name="signup-email"
-                type="email"
-                placeholder="you@example.com"
-                value={signupEmail}
-                onChange={function(event) {
-                  setSignupEmail(event.target.value);
-                }}
-                required
-              />
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="signup-password">Password</label>
-              <input
-                id="signup-password"
-                name="signup-password"
-                type="password"
-                placeholder="Create a password"
-                value={signupPassword}
-                onChange={function(event) {
-                  setSignupPassword(event.target.value);
-                }}
-                required
-              />
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="confirm-password">Confirm Password</label>
-              <input
-                id="confirm-password"
-                name="confirm-password"
-                type="password"
-                placeholder="Confirm password"
-                value={confirmPassword}
-                onChange={function(event) {
-                  setConfirmPassword(event.target.value);
-                }}
-                required
-              />
-            </div>
-
-            <button className="button" type="submit">
-              Create Account
-            </button>
-          </form>
-        </section>
-      </div>
+        <p className="auth-policy-text">
+          By continuing, you agree to use JobTrack for tracking your own job search data.
+        </p>
+      </section>
     </main>
   );
 }

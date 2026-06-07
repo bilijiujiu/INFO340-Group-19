@@ -9,11 +9,21 @@ function getNavClass(navData) {
   return '';
 }
 
-function Header() {
+function Header(props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [signOutError, setSignOutError] = useState('');
 
   function handleMenuClick() {
     setMenuOpen(!menuOpen);
+  }
+
+  function handleSignOutClick() {
+    setSignOutError('');
+
+    props.onSignOut()
+      .catch(function(error) {
+        setSignOutError('Sign out failed: ' + error.message);
+      });
   }
 
   let navClass = 'top-nav';
@@ -41,15 +51,30 @@ function Header() {
         </button>
 
         <nav id="main-navigation" className={navClass}>
-          <NavLink to="/" className={getNavClass}>Landing</NavLink>
-          <NavLink to="/auth" className={getNavClass}>Log In / Sign Up</NavLink>
-          <NavLink to="/dashboard" className={getNavClass}>Dashboard</NavLink>
-          <NavLink to="/jobs" className={getNavClass}>Jobs</NavLink>
-          <NavLink to="/applications" className={getNavClass}>Applications</NavLink>
-          <NavLink to="/analytics" className={getNavClass}>Analytics</NavLink>
-          <NavLink to="/add-job" className={getNavClass}>Add Job</NavLink>
-          <NavLink to="/settings" className={getNavClass}>Settings</NavLink>
+          {!props.currentUser && (
+            <>
+              <NavLink to="/" className={getNavClass}>Landing</NavLink>
+              <NavLink to="/auth" className={getNavClass}>Sign In</NavLink>
+            </>
+          )}
+
+          {props.currentUser && (
+            <>
+              <NavLink to="/dashboard" className={getNavClass}>Dashboard</NavLink>
+              <NavLink to="/jobs" className={getNavClass}>Jobs</NavLink>
+              <NavLink to="/applications" className={getNavClass}>Applications</NavLink>
+              <NavLink to="/analytics" className={getNavClass}>Analytics</NavLink>
+              <NavLink to="/add-job" className={getNavClass}>Add Job</NavLink>
+              <NavLink to="/settings" className={getNavClass}>Settings</NavLink>
+              <span className="user-email">{props.currentUser.email}</span>
+              <button className="button secondary-button" type="button" onClick={handleSignOutClick}>
+                Sign Out
+              </button>
+            </>
+          )}
         </nav>
+
+        {signOutError !== '' && <p className="data-note">{signOutError}</p>}
       </div>
     </header>
   );

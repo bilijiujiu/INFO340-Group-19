@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getDatabase, onValue, push as firebasePush, ref, set as firebaseSet } from 'firebase/database';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -16,15 +17,41 @@ import SettingsPage from './pages/SettingsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [jobs, setJobs] = useState([]);
-  const [isLoadingJobs, setIsLoadingJobs] = useState(true);
+  const [isLoadingJobs, setIsLoadingJobs] = useState(false);
   const [databaseError, setDatabaseError] = useState('');
 
   useEffect(function() {
-    const db = getDatabase();
-    const jobsRef = ref(db, 'jobs');
+    const auth = getAuth();
 
-    const unregisterFunction = onValue(jobsRef, function(snapshot) {
+    const unregisterAuthListener = onAuthStateChanged(auth, function(firebaseUser) {
+      setCurrentUser(firebaseUser);
+      setIsCheckingAuth(false);
+    });
+
+    function cleanup() {
+      unregisterAuthListener();
+    }
+
+    return cleanup;
+  }, []);
+
+  useEffect(function() {
+    if (!currentUser) {
+      setJobs([]);
+      setIsLoadingJobs(false);
+      setDatabaseError('');
+      return undefined;
+    }
+
+    const db = getDatabase();
+    const jobsRef = ref(db, 'users/' + currentUser.uid + '/jobs');
+
+    setIsLoadingJobs(true);
+
+    const unregisterDatabaseListener = onValue(jobsRef, function(snapshot) {
       const jobsObject = snapshot.val();
 
       if (jobsObject) {
@@ -53,97 +80,179 @@ function App() {
     });
 
     function cleanup() {
-      unregisterFunction();
+      unregisterDatabaseListener();
     }
 
     return cleanup;
-  }, []);
+  }, [currentUser]);
+
+  function getUserJobsRef() {
+    const db = getDatabase();
+    return ref(db, 'users/' + currentUser.uid + '/jobs');
+  }
 
   function addJob(newJob) {
-    const db = getDatabase();
-    const jobsRef = ref(db, 'jobs');
+    if (!currentUser) {
+      return Promise.reject(new Error('You must log in first.'));
+    }
 
-    return firebasePush(jobsRef, newJob);
+    return firebasePush(getUserJobsRef(), newJob);
   }
 
   function deleteJob(jobKey) {
+    if (!currentUser) {
+      return Promise.reject(new Error('You must log in first.'));
+    }
+
     const db = getDatabase();
-    const jobRef = ref(db, 'jobs/' + jobKey);
+    const jobRef = ref(db, 'users/' + currentUser.uid + '/jobs/' + jobKey);
 
     return firebaseSet(jobRef, null);
   }
 
   function updateJobField(jobKey, fieldName, fieldValue) {
+    if (!currentUser) {
+      return Promise.reject(new Error('You must log in first.'));
+    }
+
     const db = getDatabase();
-    const fieldRef = ref(db, 'jobs/' + jobKey + '/' + fieldName);
+    const fieldRef = ref(db, 'users/' + currentUser.uid + '/jobs/' + jobKey + '/' + fieldName);
 
     return firebaseSet(fieldRef, fieldValue);
   }
 
-  return (
-    <>
-      <Header />
+  function handleSignOut() {
+    const auth = getAuth();
 
-      {isLoadingJobs && (
+    return signOut(auth);
+  }
+
+  function getProtectedElement(pageElement) {
+    if (!currentUser) {
+      return <Navigate to="/auth" />;
+    }
+
+    if (isLoadingJobs) {
+      return (
         <main className="container page-section">
           <section className="card">
-            <h1>Loading applications</h1>
-            <p>Loading applications from Firebase...</p>
+            <h1>Loading Applications</h1>
+            <p>Loading your saved applications from Firebase...</p>
           </section>
         </main>
-      )}
+      );
+    }
 
-      {databaseError !== '' && (
+    if (databaseError !== '') {
+      return (
         <main className="container page-section">
           <section className="card">
             <h1>Database Error</h1>
             <p>{databaseError}</p>
           </section>
         </main>
-      )}
+      );
+    }
 
-      {!isLoadingJobs && databaseError === '' && (
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/dashboard" element={<DashboardPage jobs={jobs} />} />
-          <Route
-            path="/jobs"
-            element={
-              <JobsPage
-                jobs={searchJobs}
-                applications={jobs}
-                onSaveJob={addJob}
-              />
-            }
-          />
-          <Route
-            path="/jobs/:jobId"
-            element={
-              <DetailPage
-                jobs={jobs}
-                onDeleteJob={deleteJob}
-                onUpdateJobField={updateJobField}
-              />
-            }
-          />
-          <Route path="/applications" element={<ApplicationsPage jobs={jobs} onDeleteJob={deleteJob} />} />
-          <Route
-            path="/detail"
-            element={
-              <DetailPage
-                jobs={jobs}
-                onDeleteJob={deleteJob}
-                onUpdateJobField={updateJobField}
-              />
-            }
-          />
-          <Route path="/analytics" element={<AnalyticsPage jobs={jobs} />} />
-          <Route path="/add-job" element={<AddJobPage onAddJob={addJob} nextId={jobs.length + 1} />} />
-          <Route path="/settings" element={<SettingsPage jobs={jobs} />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      )}
+    return pageElement;
+  }
+
+  if (isCheckingAuth) {
+    return (
+      <>
+        <Header currentUser={currentUser} onSignOut={handleSignOut} />
+
+        <main className="container page-section">
+          <section className="card">
+            <h1>Loading Account</h1>
+            <p>Checking your JobTrack account...</p>
+          </section>
+        </main>
+
+        <Footer />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Header currentUser={currentUser} onSignOut={handleSignOut} />
+
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+
+        <Route
+          path="/auth"
+          element={currentUser ? <Navigate to="/dashboard" /> : <AuthPage />}
+        />
+
+        <Route path="/login" element={<Navigate to="/auth" />} />
+        <Route path="/register" element={<Navigate to="/auth" />} />
+
+        <Route
+          path="/dashboard"
+          element={getProtectedElement(<DashboardPage jobs={jobs} />)}
+        />
+
+        <Route
+          path="/jobs"
+          element={getProtectedElement(
+            <JobsPage
+              jobs={searchJobs}
+              applications={jobs}
+              onSaveJob={addJob}
+            />
+          )}
+        />
+
+        <Route
+          path="/jobs/:jobId"
+          element={getProtectedElement(
+            <DetailPage
+              jobs={jobs}
+              onDeleteJob={deleteJob}
+              onUpdateJobField={updateJobField}
+            />
+          )}
+        />
+
+        <Route
+          path="/applications"
+          element={getProtectedElement(
+            <ApplicationsPage jobs={jobs} onDeleteJob={deleteJob} />
+          )}
+        />
+
+        <Route
+          path="/detail"
+          element={getProtectedElement(
+            <DetailPage
+              jobs={jobs}
+              onDeleteJob={deleteJob}
+              onUpdateJobField={updateJobField}
+            />
+          )}
+        />
+
+        <Route
+          path="/analytics"
+          element={getProtectedElement(<AnalyticsPage jobs={jobs} />)}
+        />
+
+        <Route
+          path="/add-job"
+          element={getProtectedElement(
+            <AddJobPage onAddJob={addJob} nextId={jobs.length + 1} />
+          )}
+        />
+
+        <Route
+          path="/settings"
+          element={getProtectedElement(<SettingsPage jobs={jobs} />)}
+        />
+
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
 
       <Footer />
     </>

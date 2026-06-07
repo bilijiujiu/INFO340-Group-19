@@ -168,11 +168,26 @@ button:disabled {
 
 .top-nav a:hover,
 .top-nav a:focus,
-.top-nav .current-page,
-.top-nav a.active {
+.top-nav .current-page {
   color: #111820;
   background-color: #dff3f4;
   text-decoration: none;
+}
+
+.user-email {
+  display: inline-flex;
+  align-items: center;
+  max-width: 14rem;
+  overflow: hidden;
+  border: 1px solid #d3dde5;
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  color: #4f6070;
+  background-color: #f9fbfc;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .site-footer {
@@ -231,7 +246,6 @@ button:disabled {
 .stats-grid,
 .job-grid,
 .analytics-grid,
-.auth-grid,
 .settings-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -512,6 +526,7 @@ textarea {
   .top-nav {
     display: flex;
     flex-direction: row;
+    align-items: center;
     width: auto;
   }
 
@@ -523,8 +538,7 @@ textarea {
   }
 
   .hero-layout,
-  .detail-layout,
-  .auth-grid {
+  .detail-layout {
     grid-template-columns: 1fr 1fr;
     align-items: start;
   }
@@ -559,4 +573,148 @@ textarea {
   .kanban-board {
     grid-template-columns: repeat(5, 1fr);
   }
+}
+
+.auth-page-simple {
+  min-height: 100vh;
+  padding: 1.25rem;
+  background-color: #f5f7fa;
+}
+
+.auth-panel {
+  width: min(100%, 31rem);
+  margin: 4rem auto 0;
+  border: 1px solid #d3dde5;
+  border-radius: 1rem;
+  padding: 2.25rem;
+  background-color: #ffffff;
+  box-shadow: 0 0.5rem 1.4rem rgba(29, 39, 51, 0.08);
+  text-align: center;
+}
+
+.auth-logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.auth-logo-row p {
+  margin-bottom: 0;
+  color: #111820;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.auth-panel h1 {
+  margin-bottom: 0.65rem;
+  color: #111820;
+  font-size: 2rem;
+  line-height: 1.15;
+}
+
+.auth-description {
+  margin-bottom: 2rem;
+  color: #4f6070;
+  font-size: 1rem;
+}
+
+.auth-policy-text {
+  margin: 1.75rem 0 0;
+  color: #4f6070;
+  font-size: 0.9rem;
+}
+
+.auth-panel .firebaseui-container {
+  max-width: 100%;
+  margin: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.auth-panel .firebaseui-card-content,
+.auth-panel .firebaseui-card-footer {
+  padding: 0;
+}
+
+.auth-panel .firebaseui-idp-list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+}
+
+.auth-panel .firebaseui-list-item {
+  margin: 0;
+}
+
+.auth-panel .firebaseui-idp-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  min-height: 3.2rem;
+  border: 1px solid #9badba !important;
+  border-radius: 0.45rem;
+  padding: 0 1rem !important;
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+  color: #111820 !important;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.auth-panel .firebaseui-idp-button:hover,
+.auth-panel .firebaseui-idp-button:focus {
+  border-color: #165a72 !important;
+  background-color: #eef6f7 !important;
+  box-shadow: none !important;
+}
+
+.auth-panel .firebaseui-idp-icon-wrapper {
+  position: absolute;
+  left: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-panel .firebaseui-idp-text,
+.auth-panel .firebaseui-idp-text-long,
+.auth-panel .firebaseui-idp-text-short {
+  display: block;
+  width: 100%;
+  color: #111820 !important;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.auth-panel .firebaseui-idp-password .firebaseui-idp-text,
+.auth-panel .firebaseui-idp-password .firebaseui-idp-text-long,
+.auth-panel .firebaseui-idp-password .firebaseui-idp-text-short {
+  color: #ffffff !important;
+}
+
+.auth-panel .firebaseui-idp-google {
+  background-color: #ffffff !important;
+}
+
+.auth-panel .firebaseui-idp-password {
+  border-color: #165a72 !important;
+  background-color: #165a72 !important;
+  color: #ffffff !important;
+}
+
+.auth-panel .firebaseui-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.auth-panel .firebaseui-button {
+  border-radius: 0.35rem;
+  font-weight: 700;
 }
