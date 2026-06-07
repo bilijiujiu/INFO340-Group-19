@@ -12,6 +12,8 @@ function AddJobPage(props) {
   const [source, setSource] = useState('');
   const [description, setDescription] = useState('');
   const [message, setMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -33,16 +35,27 @@ function AddJobPage(props) {
       description: description
     };
 
-    props.onAddJob(newJob);
-    setMessage(company + ' — ' + role + ' was added to the tracker.');
-    setCompany('');
-    setRole('');
-    setLocation('');
-    setDeadline('');
-    setStatus('Saved');
-    setSponsorship('Sponsors visa');
-    setSource('');
-    setDescription('');
+    setIsSaving(true);
+    setMessage('');
+    setErrorMessage('');
+
+    props.onAddJob(newJob)
+      .then(function() {
+        setMessage(company + ' — ' + role + ' was added to the tracker.');
+        setCompany('');
+        setRole('');
+        setLocation('');
+        setDeadline('');
+        setStatus('Saved');
+        setSponsorship('Sponsors visa');
+        setSource('');
+        setDescription('');
+        setIsSaving(false);
+      })
+      .catch(function(error) {
+        setErrorMessage('The job could not be saved: ' + error.message);
+        setIsSaving(false);
+      });
   }
 
   return (
@@ -101,9 +114,18 @@ function AddJobPage(props) {
             <label htmlFor="description">Job Description or Notes</label>
             <textarea id="description" name="description" placeholder="Paste useful notes about the role..." value={description} onChange={function(event) { setDescription(event.target.value); }}></textarea>
           </div>
-          <button className="button" type="submit">Save Job</button>
+          <button className="button" type="submit" disabled={isSaving}>
+            {isSaving ? 'Saving...' : 'Save Job'}
+          </button>
         </form>
       </section>
+
+      {errorMessage !== '' && (
+        <section className="card">
+          <h2>Save Error</h2>
+          <p>{errorMessage}</p>
+        </section>
+      )}
 
       {message !== '' && (
         <section className="card">

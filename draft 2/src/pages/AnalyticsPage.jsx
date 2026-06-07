@@ -8,6 +8,20 @@ import { analyticsData } from '../data/analytics';
 function AnalyticsPage() {
   const [selectedType, setSelectedType] = useState('All job types');
   const [selectedCompany, setSelectedCompany] = useState('All companies');
+  const [compareItems, setCompareItems] = useState([]);
+  const [compareMessage, setCompareMessage] = useState('');
+
+  function getStatValue(companyData, label) {
+    const matchingStat = companyData.stats.find(function(stat) {
+      return stat.label === label;
+    });
+
+    if (matchingStat) {
+      return matchingStat.value;
+    }
+
+    return 'N/A';
+  }
 
   function handleTypeChange(event) {
     const newType = event.target.value;
@@ -17,6 +31,7 @@ function AnalyticsPage() {
     });
 
     setSelectedType(newType);
+    setCompareMessage('');
 
     if (matchingType) {
       setSelectedCompany(matchingType.companies[0].name);
@@ -25,6 +40,7 @@ function AnalyticsPage() {
 
   function handleCompanyChange(event) {
     setSelectedCompany(event.target.value);
+    setCompareMessage('');
   }
 
   const selectedTypeData = analyticsData.find(function(item) {
@@ -38,6 +54,48 @@ function AnalyticsPage() {
   });
 
   const currentCompanyData = selectedCompanyData || currentTypeData.companies[0];
+
+  function handleAddCompare() {
+    const newCompareItem = {
+      key: selectedType + '-' + currentCompanyData.name,
+      type: selectedType,
+      company: currentCompanyData.name,
+      totalApps: getStatValue(currentCompanyData, 'Total Apps'),
+      interviewRate: getStatValue(currentCompanyData, 'Interview Rate'),
+      offerRate: getStatValue(currentCompanyData, 'Offer Rate')
+    };
+
+    setCompareItems(function(previousItems) {
+      const alreadyAdded = previousItems.some(function(item) {
+        return item.key === newCompareItem.key;
+      });
+
+      if (alreadyAdded) {
+        setCompareMessage(newCompareItem.company + ' is already in your comparison list.');
+        return previousItems;
+      }
+
+      setCompareMessage(newCompareItem.company + ' was added to your comparison list.');
+      return previousItems.concat(newCompareItem);
+    });
+  }
+
+  function handleRemoveCompare(event) {
+    const itemKey = event.currentTarget.value;
+
+    setCompareItems(function(previousItems) {
+      return previousItems.filter(function(item) {
+        return item.key !== itemKey;
+      });
+    });
+
+    setCompareMessage('Company removed from the comparison list.');
+  }
+
+  function handleClearCompare() {
+    setCompareItems([]);
+    setCompareMessage('Comparison list cleared.');
+  }
 
   const typeOptions = analyticsData.map(function(item) {
     return (
@@ -87,6 +145,52 @@ function AnalyticsPage() {
     );
   });
 
+  const compareRows = compareItems.map(function(item) {
+    return (
+      <tr key={item.key}>
+        <td>{item.type}</td>
+        <td>{item.company}</td>
+        <td>{item.totalApps}</td>
+        <td>{item.interviewRate}</td>
+        <td>{item.offerRate}</td>
+        <td>
+          <button
+            className="button secondary-button"
+            type="button"
+            value={item.key}
+            onClick={handleRemoveCompare}
+          >
+            Remove
+          </button>
+        </td>
+      </tr>
+    );
+  });
+
+  const compareSection = compareItems.length > 0 ? (
+    <div className="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Job Type</th>
+            <th>Company</th>
+            <th>Total Apps</th>
+            <th>Interview Rate</th>
+            <th>Offer Rate</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {compareRows}
+        </tbody>
+      </table>
+    </div>
+  ) : (
+    <p className="muted-text">
+      No companies are selected yet. Choose a job type and company, then add it to compare.
+    </p>
+  );
+
   return (
     <PageLayout>
       <div className="page-heading">
@@ -131,11 +235,30 @@ function AnalyticsPage() {
               {companyOptions}
             </select>
           </div>
+
+          <div className="filter-actions">
+            <button className="button" type="button" onClick={handleAddCompare}>
+              Add to Compare
+            </button>
+            <button className="button secondary-button" type="button" onClick={handleClearCompare}>
+              Clear Compare List
+            </button>
+          </div>
+
+          {compareMessage && <p className="data-note">{compareMessage}</p>}
         </form>
       </section>
 
       <section className="stats-grid">
         {statCards}
+      </section>
+
+      <section className="card">
+        <h2>Company Comparison</h2>
+        <p className="muted-text">
+          Add companies to compare total applications, interview rate, and offer rate side by side.
+        </p>
+        {compareSection}
       </section>
 
       <section className="analytics-grid">

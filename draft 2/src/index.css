@@ -385,20 +385,32 @@ textarea {
   flex-shrink: 0;
 }
 
-.status-list,
-.task-list {
+.status-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
-  padding-left: 0;
+  gap: 0.75rem;
   list-style: none;
+  padding: 0;
+  margin: 1rem 0;
 }
 
-.status-list li,
-.task-list li {
-  border: 1px solid #cfd9e2;
-  border-radius: 999px;
-  padding: 0.35rem 0.65rem;
+.status-list li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.status-list .button,
+.status-list .secondary-button {
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.status-list .secondary-button {
   background-color: #eef6f7;
 }
 

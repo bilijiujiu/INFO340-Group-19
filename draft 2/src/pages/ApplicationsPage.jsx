@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
 import PageLayout from '../components/PageLayout';
 import ApplicationColumn from '../components/ApplicationColumn';
 
 function ApplicationsPage(props) {
+  const [deleteMessage, setDeleteMessage] = useState('');
+  const [deleteError, setDeleteError] = useState('');
+
   const statuses = [
     {
       title: 'Saved',
@@ -26,18 +30,25 @@ function ApplicationsPage(props) {
     }
   ];
 
+  function handleDelete(job) {
+    const jobKey = job.key || job.id;
+
+    setDeleteMessage('');
+    setDeleteError('');
+
+    props.onDeleteJob(jobKey)
+      .then(function() {
+        setDeleteMessage(job.company + ' — ' + job.role + ' was deleted.');
+      })
+      .catch(function(error) {
+        setDeleteError('The job could not be deleted: ' + error.message);
+      });
+  }
+
   const applicationColumns = statuses.map(function(status) {
     const statusJobs = props.jobs.filter(function(job) {
       return job.status === status.title;
     });
-
-    let buttonText = '+ Add card';
-    let buttonLink = '/add-job';
-
-    if (status.title === 'Interview' || status.title === 'Offer') {
-      buttonText = 'View workspace';
-      buttonLink = '/detail';
-    }
 
     return (
       <ApplicationColumn
@@ -45,8 +56,7 @@ function ApplicationsPage(props) {
         title={status.title}
         icon={status.icon}
         jobs={statusJobs}
-        buttonText={buttonText}
-        buttonLink={buttonLink}
+        onDelete={handleDelete}
       />
     );
   });
@@ -60,6 +70,9 @@ function ApplicationsPage(props) {
         </div>
         <Link className="button" to="/add-job">+ Add Job</Link>
       </div>
+
+      {deleteMessage !== '' && <p className="data-note">{deleteMessage}</p>}
+      {deleteError !== '' && <p className="data-note">{deleteError}</p>}
 
       <section className="kanban-board">
         {applicationColumns}

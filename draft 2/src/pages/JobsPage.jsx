@@ -10,6 +10,8 @@ function JobsPage(props) {
   const [experienceFilter, setExperienceFilter] = useState('Any level');
   const [sponsorshipFilter, setSponsorshipFilter] = useState('Any');
   const [savedMessage, setSavedMessage] = useState('');
+  const [deleteMessage, setDeleteMessage] = useState('');
+  const [deleteError, setDeleteError] = useState('');
 
   function handleSearchChange(event) {
     setSearchTerm(event.target.value);
@@ -42,6 +44,8 @@ function JobsPage(props) {
     setExperienceFilter('Any level');
     setSponsorshipFilter('Any');
     setSavedMessage('');
+    setDeleteMessage('');
+    setDeleteError('');
   }
 
   function jobMatches(job) {
@@ -59,6 +63,24 @@ function JobsPage(props) {
 
   function handleSave(job) {
     setSavedMessage(job.company + ' — ' + job.role + ' was saved to your tracker.');
+    setDeleteMessage('');
+    setDeleteError('');
+  }
+
+  function handleDelete(job) {
+    const jobKey = job.key || job.id;
+
+    setSavedMessage('');
+    setDeleteMessage('');
+    setDeleteError('');
+
+    props.onDeleteJob(jobKey)
+      .then(function() {
+        setDeleteMessage(job.company + ' — ' + job.role + ' was deleted.');
+      })
+      .catch(function(error) {
+        setDeleteError('The job could not be deleted: ' + error.message);
+      });
   }
 
   const filteredJobs = props.jobs.filter(jobMatches);
@@ -66,10 +88,13 @@ function JobsPage(props) {
   const jobCards = filteredJobs.map(function(job) {
     return (
       <JobCard
-        key={job.id}
+        key={job.key || job.id}
         job={job}
         onSave={function() {
           handleSave(job);
+        }}
+        onDelete={function() {
+          handleDelete(job);
         }}
       />
     );
@@ -80,7 +105,7 @@ function JobsPage(props) {
       <div className="page-heading">
         <div>
           <h1>Job Search &amp; Filter</h1>
-          <p className="muted-text">Search mock job listings and filter by your preferences.</p>
+          <p className="muted-text">Search job listings and filter by your preferences.</p>
         </div>
         <Link className="button" to="/add-job">+ Add Job</Link>
       </div>
@@ -88,7 +113,7 @@ function JobsPage(props) {
       <section className="card search-card">
         <div>
           <h2>Search Jobs</h2>
-          <p className="muted-text">Use filters to narrow down the job listings in this mock database.</p>
+          <p className="muted-text">Use filters to narrow down the job listings.</p>
         </div>
 
         <form className="form-stack" onSubmit={handleSubmit}>
@@ -163,6 +188,8 @@ function JobsPage(props) {
       </section>
 
       {savedMessage !== '' && <p className="data-note">{savedMessage}</p>}
+      {deleteMessage !== '' && <p className="data-note">{deleteMessage}</p>}
+      {deleteError !== '' && <p className="data-note">{deleteError}</p>}
 
       <p className="muted-text">{filteredJobs.length} jobs found</p>
 

@@ -7,8 +7,10 @@
   "dependencies": {
     "@vitejs/plugin-react": "latest",
     "axios": "^1.16.1",
+    "firebase": "^10.14.1",
     "react": "latest",
     "react-dom": "latest",
+    "react-firebaseui": "github:joelwross/firebaseui-web-react",
     "react-router-dom": "latest",
     "vite": "latest"
   }

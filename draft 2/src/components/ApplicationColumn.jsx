@@ -2,12 +2,19 @@ import { Link } from 'react-router';
 
 function ApplicationColumn(props) {
   const jobCards = props.jobs.map(function(job) {
+    const detailId = job.key || job.id;
+    const logoSrc = job.logo || '/img/logos/generic.svg';
+
+    function handleDeleteClick() {
+      props.onDelete(job);
+    }
+
     return (
-      <article className="kanban-card" key={job.id}>
+      <article className="kanban-card" key={detailId}>
         <div className="company-heading small-company-heading">
           <img
             className="company-logo small-company-logo"
-            src={job.logo}
+            src={logoSrc}
             alt=""
             aria-hidden="true"
           />
@@ -15,6 +22,11 @@ function ApplicationColumn(props) {
             <h3>{job.company}</h3>
             <p>{job.role}</p>
           </div>
+        </div>
+
+        <div className="job-actions">
+          <Link className="button secondary-button" to={`/jobs/${detailId}`}>View Details</Link>
+          <button className="button secondary-button" type="button" onClick={handleDeleteClick}>Delete</button>
         </div>
       </article>
     );
@@ -37,7 +49,11 @@ function ApplicationColumn(props) {
 
       {jobCards}
 
-      <Link className="button secondary-button" to={props.buttonLink}>{props.buttonText}</Link>
+      {props.jobs.length === 0 && (
+        <p className="muted-text">No jobs in this status yet.</p>
+      )}
+
+      <Link className="button secondary-button" to="/add-job">+ Add Job</Link>
     </section>
   );
 }
