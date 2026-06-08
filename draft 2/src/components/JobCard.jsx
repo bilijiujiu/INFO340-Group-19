@@ -15,7 +15,7 @@ function JobCard(props) {
   const sourceText = job.source || 'Job board';
 
   function handleSaveClick() {
-    props.onSave();
+    props.onSaveJob(job);
   }
 
   return (

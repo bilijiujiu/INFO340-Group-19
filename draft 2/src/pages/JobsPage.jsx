@@ -4,12 +4,88 @@ import PageLayout from '../components/PageLayout';
 import JobCard from '../components/JobCard';
 
 const LOCATION_OPTIONS = [
-  'Seattle', 'Redmond', 'San Francisco', 'Remote',
-  'New York', 'Los Angeles', 'Sunnyvale', 'Austin',
-  'Chicago', 'San Jose', 'Mountain View', 'Cupertino', 'Menlo Park',
+  'Seattle',
+  'Redmond',
+  'San Francisco',
+  'Remote',
+  'New York',
+  'Los Angeles',
+  'Sunnyvale',
+  'Austin',
+  'Chicago',
+  'San Jose',
+  'Mountain View',
+  'Cupertino',
+  'Menlo Park'
 ];
 
 const EXPERIENCE_OPTIONS = ['Internship', 'Entry level', 'Mid level'];
+const SPONSORSHIP_OPTIONS = ['Any', 'Sponsors visa', 'No sponsorship'];
+
+function LocationChip(props) {
+  let chipClass = 'chip';
+
+  if (props.currentLocation === props.location) {
+    chipClass = 'chip active-chip';
+  }
+
+  function handleClick() {
+    props.onSelectLocation(props.location);
+  }
+
+  return (
+    <button
+      type="button"
+      className={chipClass}
+      onClick={handleClick}
+    >
+      {props.location}
+    </button>
+  );
+}
+
+function ExperienceChip(props) {
+  let chipClass = 'chip';
+
+  if (props.currentExperience === props.experience) {
+    chipClass = 'chip active-chip';
+  }
+
+  function handleClick() {
+    props.onSelectExperience(props.experience);
+  }
+
+  return (
+    <button
+      type="button"
+      className={chipClass}
+      onClick={handleClick}
+    >
+      {props.experience}
+    </button>
+  );
+}
+
+function LocationOption(props) {
+  return (
+    <option value={props.location}>{props.location}</option>
+  );
+}
+
+function SponsorshipOption(props) {
+  return (
+    <label className="sidebar-radio-label">
+      <input
+        type="radio"
+        name="sponsorship"
+        value={props.option}
+        checked={props.currentSponsorship === props.option}
+        onChange={props.onChange}
+      />
+      {props.option}
+    </label>
+  );
+}
 
 function JobsPage(props) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -24,6 +100,46 @@ function JobsPage(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
+  }
+
+  function handleSearchChange(event) {
+    setSearchTerm(event.target.value);
+  }
+
+  function handleLocationSelect(location) {
+    if (locationFilter === location) {
+      setLocationFilter('Any location');
+    } else {
+      setLocationFilter(location);
+    }
+  }
+
+  function handleMoreCityChange(event) {
+    if (event.target.value === '') {
+      setLocationFilter('Any location');
+    } else {
+      setLocationFilter(event.target.value);
+    }
+  }
+
+  function handleExperienceSelect(experience) {
+    if (experienceFilter === experience) {
+      setExperienceFilter('Any level');
+    } else {
+      setExperienceFilter(experience);
+    }
+  }
+
+  function handleSalaryChange(event) {
+    setSalaryFilter(event.target.value);
+  }
+
+  function handleSponsorshipChange(event) {
+    setSponsorshipFilter(event.target.value);
+  }
+
+  function handleSortChange(event) {
+    setSortBy(event.target.value);
   }
 
   function handleReset() {
@@ -67,7 +183,7 @@ function JobsPage(props) {
       sourceJobId: job.id,
       status: 'Saved',
       date: 'Today',
-      notes: '',
+      notes: ''
     };
 
     setSavedMessage('');
@@ -105,22 +221,62 @@ function JobsPage(props) {
     experienceFilter !== 'Any level' ||
     sponsorshipFilter !== 'Any';
 
+  const primaryLocations = LOCATION_OPTIONS.slice(0, 5);
+  const otherLocations = LOCATION_OPTIONS.slice(5);
+  const moreCityValue = otherLocations.includes(locationFilter) ? locationFilter : '';
+
+  const locationChips = primaryLocations.map(function(location) {
+    return (
+      <LocationChip
+        key={location}
+        location={location}
+        currentLocation={locationFilter}
+        onSelectLocation={handleLocationSelect}
+      />
+    );
+  });
+
+  const moreCityOptions = otherLocations.map(function(location) {
+    return (
+      <LocationOption key={location} location={location} />
+    );
+  });
+
+  const experienceChips = EXPERIENCE_OPTIONS.map(function(experience) {
+    return (
+      <ExperienceChip
+        key={experience}
+        experience={experience}
+        currentExperience={experienceFilter}
+        onSelectExperience={handleExperienceSelect}
+      />
+    );
+  });
+
+  const sponsorshipOptions = SPONSORSHIP_OPTIONS.map(function(option) {
+    return (
+      <SponsorshipOption
+        key={option}
+        option={option}
+        currentSponsorship={sponsorshipFilter}
+        onChange={handleSponsorshipChange}
+      />
+    );
+  });
+
   const jobCards = filteredJobs.map(function(job) {
     return (
       <JobCard
         key={job.id}
         job={job}
         isSaving={savingJobId === job.id}
-        onSave={function() {
-          handleSave(job);
-        }}
+        onSaveJob={handleSave}
       />
     );
   });
 
   return (
     <PageLayout>
-      {/* Page heading */}
       <div className="page-heading">
         <div>
           <h1>Find jobs</h1>
@@ -131,7 +287,6 @@ function JobsPage(props) {
         </Link>
       </div>
 
-      {/* Search bar */}
       <section className="card search-card compact-search-card">
         <form className="form-stack" onSubmit={handleSubmit}>
           <div className="search-row">
@@ -143,64 +298,32 @@ function JobsPage(props) {
                 type="search"
                 placeholder="Search job title, company..."
                 value={searchTerm}
-                onChange={function(event) { setSearchTerm(event.target.value); }}
+                onChange={handleSearchChange}
               />
             </div>
             <button className="button" type="submit">Search</button>
           </div>
 
-          {/* Quick-filter chips: Location */}
           <div>
             <p className="filter-chip-label">Location</p>
             <div className="quick-filter-row">
-              {LOCATION_OPTIONS.slice(0, 5).map(function(loc) {
-                return (
-                  <button
-                    key={loc}
-                    type="button"
-                    className={locationFilter === loc ? 'chip active-chip' : 'chip'}
-                    onClick={function() {
-                      setLocationFilter(locationFilter === loc ? 'Any location' : loc);
-                    }}
-                  >
-                    {loc}
-                  </button>
-                );
-              })}
-              {/* remaining locations in a select for overflow */}
+              {locationChips}
+
               <select
                 className="chip-select"
-                value={LOCATION_OPTIONS.slice(0, 5).includes(locationFilter) ? '' : locationFilter}
-                onChange={function(event) {
-                  setLocationFilter(event.target.value || 'Any location');
-                }}
+                value={moreCityValue}
+                onChange={handleMoreCityChange}
               >
                 <option value="">More cities…</option>
-                {LOCATION_OPTIONS.slice(5).map(function(loc) {
-                  return <option key={loc} value={loc}>{loc}</option>;
-                })}
+                {moreCityOptions}
               </select>
             </div>
           </div>
 
-          {/* Quick-filter chips: Experience */}
           <div>
             <p className="filter-chip-label">Experience</p>
             <div className="quick-filter-row">
-              {EXPERIENCE_OPTIONS.map(function(exp) {
-                return (
-                  <button
-                    key={exp}
-                    type="button"
-                    className={experienceFilter === exp ? 'chip active-chip' : 'chip'}
-                    onClick={function() {
-                      setExperienceFilter(experienceFilter === exp ? 'Any level' : exp);
-                    }}
-                  >
-                    {exp}
-                  </button>
-                );
-              })}
+              {experienceChips}
             </div>
           </div>
         </form>
@@ -209,10 +332,7 @@ function JobsPage(props) {
       {savedMessage !== '' && <p className="data-note">{savedMessage}</p>}
       {saveError !== '' && <p className="data-note">{saveError}</p>}
 
-      {/* Main content: sidebar + job list */}
       <div className="jobs-layout">
-
-        {/* Sidebar filters */}
         <aside className="filter-sidebar">
           <div className="sidebar-header">
             <span className="sidebar-title">Filters</span>
@@ -229,7 +349,7 @@ function JobsPage(props) {
               <select
                 id="salary"
                 value={salaryFilter}
-                onChange={function(event) { setSalaryFilter(event.target.value); }}
+                onChange={handleSalaryChange}
               >
                 <option>Any salary</option>
                 <option>$60k - $100k</option>
@@ -242,20 +362,7 @@ function JobsPage(props) {
           <div className="sidebar-section">
             <p className="sidebar-section-label">Sponsorship</p>
             <div className="sidebar-radio-group">
-              {['Any', 'Sponsors visa', 'No sponsorship'].map(function(opt) {
-                return (
-                  <label key={opt} className="sidebar-radio-label">
-                    <input
-                      type="radio"
-                      name="sponsorship"
-                      value={opt}
-                      checked={sponsorshipFilter === opt}
-                      onChange={function() { setSponsorshipFilter(opt); }}
-                    />
-                    {opt}
-                  </label>
-                );
-              })}
+              {sponsorshipOptions}
             </div>
           </div>
 
@@ -265,7 +372,7 @@ function JobsPage(props) {
               <select
                 id="sort"
                 value={sortBy}
-                onChange={function(event) { setSortBy(event.target.value); }}
+                onChange={handleSortChange}
               >
                 <option>Newest</option>
                 <option>Company</option>
@@ -275,7 +382,6 @@ function JobsPage(props) {
           </div>
         </aside>
 
-        {/* Results */}
         <div className="jobs-results">
           <p className="muted-text results-count">
             <strong>{filteredJobs.length}</strong> open jobs found
