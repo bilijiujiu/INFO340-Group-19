@@ -14,6 +14,10 @@ function JobCard(props) {
   const deadlineText = job.deadline || 'No deadline listed';
   const sourceText = job.source || 'Job board';
 
+  function handleSaveClick() {
+    props.onSave();
+  }
+
   return (
     <article className="card job-card">
       <header className="job-card-header">
@@ -47,7 +51,7 @@ function JobCard(props) {
         <button
           className="button"
           type="button"
-          onClick={props.onSave}
+          onClick={handleSaveClick}
           disabled={props.isSaving}
         >
           {props.isSaving ? 'Saving...' : 'Save to Applications'}

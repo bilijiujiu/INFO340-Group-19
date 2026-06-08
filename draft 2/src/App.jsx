@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router';
+import { Routes, Route, Navigate, useLocation } from 'react-router';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getDatabase, onValue, push as firebasePush, ref, set as firebaseSet } from 'firebase/database';
 import Header from './components/Header';
@@ -16,7 +16,43 @@ import AddJobPage from './pages/AddJobPage';
 import SettingsPage from './pages/SettingsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
+function LoadingPanel() {
+  return (
+    <main className="container page-section">
+      <section className="card">
+        <h1>Loading Applications</h1>
+        <p>Loading your saved applications from Firebase...</p>
+      </section>
+    </main>
+  );
+}
+
+function DatabaseErrorPanel(props) {
+  return (
+    <main className="container page-section">
+      <section className="card">
+        <h1>Database Error</h1>
+        <p>{props.message}</p>
+      </section>
+    </main>
+  );
+}
+
+function AccountLoadingPanel() {
+  return (
+    <main className="container page-section">
+      <section className="card">
+        <h1>Loading Account</h1>
+        <p>Checking your JobTrack account...</p>
+      </section>
+    </main>
+  );
+}
+
 function App() {
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/auth';
+
   const [currentUser, setCurrentUser] = useState(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [jobs, setJobs] = useState([]);
@@ -51,33 +87,38 @@ function App() {
 
     setIsLoadingJobs(true);
 
-    const unregisterDatabaseListener = onValue(jobsRef, function(snapshot) {
-      const jobsObject = snapshot.val();
+    const unregisterDatabaseListener = onValue(
+      jobsRef,
+      function(snapshot) {
+        const jobsObject = snapshot.val();
 
-      if (jobsObject) {
-        const jobKeys = Object.keys(jobsObject);
-        const firebaseJobs = jobKeys.map(function(key) {
-          const job = { ...jobsObject[key] };
-          job.key = key;
+        if (jobsObject) {
+          const jobKeys = Object.keys(jobsObject);
 
-          if (!job.id) {
-            job.id = key;
-          }
+          const firebaseJobs = jobKeys.map(function(key) {
+            const job = { ...jobsObject[key] };
+            job.key = key;
 
-          return job;
-        });
+            if (!job.id) {
+              job.id = key;
+            }
 
-        setJobs(firebaseJobs);
-      } else {
-        setJobs([]);
+            return job;
+          });
+
+          setJobs(firebaseJobs);
+        } else {
+          setJobs([]);
+        }
+
+        setIsLoadingJobs(false);
+        setDatabaseError('');
+      },
+      function(error) {
+        setDatabaseError('Could not load applications: ' + error.message);
+        setIsLoadingJobs(false);
       }
-
-      setIsLoadingJobs(false);
-      setDatabaseError('');
-    }, function(error) {
-      setDatabaseError('Could not load applications: ' + error.message);
-      setIsLoadingJobs(false);
-    });
+    );
 
     function cleanup() {
       unregisterDatabaseListener();
@@ -86,17 +127,15 @@ function App() {
     return cleanup;
   }, [currentUser]);
 
-  function getUserJobsRef() {
-    const db = getDatabase();
-    return ref(db, 'users/' + currentUser.uid + '/jobs');
-  }
-
   function addJob(newJob) {
     if (!currentUser) {
       return Promise.reject(new Error('You must log in first.'));
     }
 
-    return firebasePush(getUserJobsRef(), newJob);
+    const db = getDatabase();
+    const jobsRef = ref(db, 'users/' + currentUser.uid + '/jobs');
+
+    return firebasePush(jobsRef, newJob);
   }
 
   function deleteJob(jobKey) {
@@ -127,56 +166,97 @@ function App() {
     return signOut(auth);
   }
 
-  function getProtectedElement(pageElement) {
-    if (!currentUser) {
-      return <Navigate to="/auth" />;
-    }
+  let dashboardElement = <Navigate to="/auth" />;
+  let jobsElement = <Navigate to="/auth" />;
+  let applicationsElement = <Navigate to="/auth" />;
+  let detailElement = <Navigate to="/auth" />;
+  let analyticsElement = <Navigate to="/auth" />;
+  let addJobElement = <Navigate to="/auth" />;
+  let settingsElement = <Navigate to="/auth" />;
 
-    if (isLoadingJobs) {
-      return (
-        <main className="container page-section">
-          <section className="card">
-            <h1>Loading Applications</h1>
-            <p>Loading your saved applications from Firebase...</p>
-          </section>
-        </main>
-      );
-    }
+  if (currentUser && isLoadingJobs) {
+    dashboardElement = <LoadingPanel />;
+    jobsElement = <LoadingPanel />;
+    applicationsElement = <LoadingPanel />;
+    detailElement = <LoadingPanel />;
+    analyticsElement = <LoadingPanel />;
+    addJobElement = <LoadingPanel />;
+    settingsElement = <LoadingPanel />;
+  }
 
-    if (databaseError !== '') {
-      return (
-        <main className="container page-section">
-          <section className="card">
-            <h1>Database Error</h1>
-            <p>{databaseError}</p>
-          </section>
-        </main>
-      );
-    }
+  if (currentUser && databaseError !== '') {
+    dashboardElement = <DatabaseErrorPanel message={databaseError} />;
+    jobsElement = <DatabaseErrorPanel message={databaseError} />;
+    applicationsElement = <DatabaseErrorPanel message={databaseError} />;
+    detailElement = <DatabaseErrorPanel message={databaseError} />;
+    analyticsElement = <DatabaseErrorPanel message={databaseError} />;
+    addJobElement = <DatabaseErrorPanel message={databaseError} />;
+    settingsElement = <DatabaseErrorPanel message={databaseError} />;
+  }
 
-    return pageElement;
+  if (currentUser && !isLoadingJobs && databaseError === '') {
+    dashboardElement = <DashboardPage jobs={jobs} user={currentUser} />;
+
+    jobsElement = (
+      <JobsPage
+        jobs={searchJobs}
+        applications={jobs}
+        onSaveJob={addJob}
+      />
+    );
+
+    applicationsElement = (
+      <ApplicationsPage
+        jobs={jobs}
+        onDeleteJob={deleteJob}
+      />
+    );
+
+    detailElement = (
+      <DetailPage
+        jobs={jobs}
+        onDeleteJob={deleteJob}
+        onUpdateJobField={updateJobField}
+      />
+    );
+
+    analyticsElement = <AnalyticsPage jobs={jobs} />;
+
+    addJobElement = (
+      <AddJobPage
+        onAddJob={addJob}
+        nextId={jobs.length + 1}
+      />
+    );
+
+    settingsElement = <SettingsPage jobs={jobs} />;
   }
 
   if (isCheckingAuth) {
     return (
       <>
-        <Header currentUser={currentUser} onSignOut={handleSignOut} />
+        {!isAuthPage && (
+          <Header
+            currentUser={currentUser}
+            onSignOut={handleSignOut}
+          />
+        )}
 
-        <main className="container page-section">
-          <section className="card">
-            <h1>Loading Account</h1>
-            <p>Checking your JobTrack account...</p>
-          </section>
-        </main>
+        <AccountLoadingPanel />
 
-        <Footer />
+        {!isAuthPage && <Footer />}
       </>
     );
   }
 
   return (
     <>
-      <Header currentUser={currentUser} onSignOut={handleSignOut} />
+      {!isAuthPage && (
+        <Header
+          currentUser={currentUser}
+          onSignOut={handleSignOut}
+        />
+      )}
 
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -189,72 +269,19 @@ function App() {
         <Route path="/login" element={<Navigate to="/auth" />} />
         <Route path="/register" element={<Navigate to="/auth" />} />
 
-        <Route
-          path="/dashboard"
-          element={getProtectedElement(<DashboardPage jobs={jobs} />)}
-        />
-
-        <Route
-          path="/jobs"
-          element={getProtectedElement(
-            <JobsPage
-              jobs={searchJobs}
-              applications={jobs}
-              onSaveJob={addJob}
-            />
-          )}
-        />
-
-        <Route
-          path="/jobs/:jobId"
-          element={getProtectedElement(
-            <DetailPage
-              jobs={jobs}
-              onDeleteJob={deleteJob}
-              onUpdateJobField={updateJobField}
-            />
-          )}
-        />
-
-        <Route
-          path="/applications"
-          element={getProtectedElement(
-            <ApplicationsPage jobs={jobs} onDeleteJob={deleteJob} />
-          )}
-        />
-
-        <Route
-          path="/detail"
-          element={getProtectedElement(
-            <DetailPage
-              jobs={jobs}
-              onDeleteJob={deleteJob}
-              onUpdateJobField={updateJobField}
-            />
-          )}
-        />
-
-        <Route
-          path="/analytics"
-          element={getProtectedElement(<AnalyticsPage jobs={jobs} />)}
-        />
-
-        <Route
-          path="/add-job"
-          element={getProtectedElement(
-            <AddJobPage onAddJob={addJob} nextId={jobs.length + 1} />
-          )}
-        />
-
-        <Route
-          path="/settings"
-          element={getProtectedElement(<SettingsPage jobs={jobs} />)}
-        />
+        <Route path="/dashboard" element={dashboardElement} />
+        <Route path="/jobs" element={jobsElement} />
+        <Route path="/jobs/:jobId" element={detailElement} />
+        <Route path="/applications" element={applicationsElement} />
+        <Route path="/detail" element={detailElement} />
+        <Route path="/analytics" element={analyticsElement} />
+        <Route path="/add-job" element={addJobElement} />
+        <Route path="/settings" element={settingsElement} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
-      <Footer />
+      {!isAuthPage && <Footer />}
     </>
   );
 }

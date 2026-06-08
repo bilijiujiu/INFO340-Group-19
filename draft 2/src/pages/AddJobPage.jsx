@@ -15,6 +15,49 @@ function AddJobPage(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
+  function handleCompanyChange(event) {
+    setCompany(event.target.value);
+  }
+
+  function handleRoleChange(event) {
+    setRole(event.target.value);
+  }
+
+  function handleLocationChange(event) {
+    setLocation(event.target.value);
+  }
+
+  function handleDeadlineChange(event) {
+    setDeadline(event.target.value);
+  }
+
+  function handleStatusChange(event) {
+    setStatus(event.target.value);
+  }
+
+  function handleSponsorshipChange(event) {
+    setSponsorship(event.target.value);
+  }
+
+  function handleSourceChange(event) {
+    setSource(event.target.value);
+  }
+
+  function handleDescriptionChange(event) {
+    setDescription(event.target.value);
+  }
+
+  function clearForm() {
+    setCompany('');
+    setRole('');
+    setLocation('');
+    setDeadline('');
+    setStatus('Saved');
+    setSponsorship('Sponsors visa');
+    setSource('');
+    setDescription('');
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -42,14 +85,7 @@ function AddJobPage(props) {
     props.onAddJob(newJob)
       .then(function() {
         setMessage(company + ' — ' + role + ' was added to the tracker.');
-        setCompany('');
-        setRole('');
-        setLocation('');
-        setDeadline('');
-        setStatus('Saved');
-        setSponsorship('Sponsors visa');
-        setSource('');
-        setDescription('');
+        clearForm();
         setIsSaving(false);
       })
       .catch(function(error) {
@@ -63,34 +99,73 @@ function AddJobPage(props) {
       <div className="page-heading">
         <div>
           <h1>Add Job</h1>
-          <p className="muted-text">A controlled form view for adding a new job to the tracker.</p>
+          <p className="muted-text">Add a new job to your application tracker.</p>
         </div>
         <Link className="button" to="/jobs">Back to Job Board</Link>
       </div>
 
       <section className="card">
         <h2>Job Information</h2>
+
         <form className="form-stack" onSubmit={handleSubmit}>
           <div className="settings-grid">
             <div className="form-row">
               <label htmlFor="company">Company</label>
-              <input id="company" name="company" type="text" placeholder="Company name" value={company} onChange={function(event) { setCompany(event.target.value); }} required />
+              <input
+                id="company"
+                name="company"
+                type="text"
+                placeholder="Company name"
+                value={company}
+                onChange={handleCompanyChange}
+                required
+              />
             </div>
+
             <div className="form-row">
               <label htmlFor="role">Role</label>
-              <input id="role" name="role" type="text" placeholder="Job title" value={role} onChange={function(event) { setRole(event.target.value); }} required />
+              <input
+                id="role"
+                name="role"
+                type="text"
+                placeholder="Job title"
+                value={role}
+                onChange={handleRoleChange}
+                required
+              />
             </div>
+
             <div className="form-row">
               <label htmlFor="job-location">Location</label>
-              <input id="job-location" name="job-location" type="text" placeholder="City or remote" value={location} onChange={function(event) { setLocation(event.target.value); }} />
+              <input
+                id="job-location"
+                name="job-location"
+                type="text"
+                placeholder="City or remote"
+                value={location}
+                onChange={handleLocationChange}
+              />
             </div>
+
             <div className="form-row">
               <label htmlFor="deadline">Deadline</label>
-              <input id="deadline" name="deadline" type="date" value={deadline} onChange={function(event) { setDeadline(event.target.value); }} />
+              <input
+                id="deadline"
+                name="deadline"
+                type="date"
+                value={deadline}
+                onChange={handleDeadlineChange}
+              />
             </div>
+
             <div className="form-row">
               <label htmlFor="status">Status</label>
-              <select id="status" name="status" value={status} onChange={function(event) { setStatus(event.target.value); }}>
+              <select
+                id="status"
+                name="status"
+                value={status}
+                onChange={handleStatusChange}
+              >
                 <option>Saved</option>
                 <option>Applied</option>
                 <option>Interview</option>
@@ -98,22 +173,44 @@ function AddJobPage(props) {
                 <option>Rejected</option>
               </select>
             </div>
+
             <div className="form-row">
               <label htmlFor="visa-sponsorship">Visa Sponsorship</label>
-              <select id="visa-sponsorship" name="visa-sponsorship" value={sponsorship} onChange={function(event) { setSponsorship(event.target.value); }}>
+              <select
+                id="visa-sponsorship"
+                name="visa-sponsorship"
+                value={sponsorship}
+                onChange={handleSponsorshipChange}
+              >
                 <option>Sponsors visa</option>
                 <option>No sponsorship</option>
               </select>
             </div>
+
             <div className="form-row">
               <label htmlFor="source">Source</label>
-              <input id="source" name="source" type="text" placeholder="LinkedIn, Handshake, referral..." value={source} onChange={function(event) { setSource(event.target.value); }} />
+              <input
+                id="source"
+                name="source"
+                type="text"
+                placeholder="LinkedIn, Handshake, referral..."
+                value={source}
+                onChange={handleSourceChange}
+              />
             </div>
           </div>
+
           <div className="form-row">
             <label htmlFor="description">Job Description or Notes</label>
-            <textarea id="description" name="description" placeholder="Paste useful notes about the role..." value={description} onChange={function(event) { setDescription(event.target.value); }}></textarea>
+            <textarea
+              id="description"
+              name="description"
+              placeholder="Paste useful notes about the role..."
+              value={description}
+              onChange={handleDescriptionChange}
+            ></textarea>
           </div>
+
           <button className="button" type="submit" disabled={isSaving}>
             {isSaving ? 'Saving...' : 'Save Job'}
           </button>

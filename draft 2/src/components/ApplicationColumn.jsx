@@ -1,34 +1,56 @@
 import { Link } from 'react-router';
 
+function ApplicationCard(props) {
+  const job = props.job;
+  const detailId = job.key || job.id;
+  const logoSrc = job.logo || '/img/logos/generic.svg';
+
+  function handleDeleteClick() {
+    props.onDelete(job);
+  }
+
+  return (
+    <article className="kanban-card">
+      <div className="company-heading small-company-heading">
+        <img
+          className="company-logo small-company-logo"
+          src={logoSrc}
+          alt=""
+          aria-hidden="true"
+        />
+        <div>
+          <h3>{job.company}</h3>
+          <p>{job.role}</p>
+        </div>
+      </div>
+
+      <div className="job-actions">
+        <Link className="button secondary-button" to={`/jobs/${detailId}`}>
+          View Details
+        </Link>
+
+        <button
+          className="button secondary-button"
+          type="button"
+          onClick={handleDeleteClick}
+        >
+          Delete
+        </button>
+      </div>
+    </article>
+  );
+}
+
 function ApplicationColumn(props) {
   const jobCards = props.jobs.map(function(job) {
     const detailId = job.key || job.id;
-    const logoSrc = job.logo || '/img/logos/generic.svg';
-
-    function handleDeleteClick() {
-      props.onDelete(job);
-    }
 
     return (
-      <article className="kanban-card" key={detailId}>
-        <div className="company-heading small-company-heading">
-          <img
-            className="company-logo small-company-logo"
-            src={logoSrc}
-            alt=""
-            aria-hidden="true"
-          />
-          <div>
-            <h3>{job.company}</h3>
-            <p>{job.role}</p>
-          </div>
-        </div>
-
-        <div className="job-actions">
-          <Link className="button secondary-button" to={`/jobs/${detailId}`}>View Details</Link>
-          <button className="button secondary-button" type="button" onClick={handleDeleteClick}>Delete</button>
-        </div>
-      </article>
+      <ApplicationCard
+        key={detailId}
+        job={job}
+        onDelete={props.onDelete}
+      />
     );
   });
 
