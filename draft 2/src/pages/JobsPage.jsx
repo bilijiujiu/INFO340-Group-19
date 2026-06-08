@@ -3,35 +3,24 @@ import { Link } from 'react-router';
 import PageLayout from '../components/PageLayout';
 import JobCard from '../components/JobCard';
 
+const LOCATION_OPTIONS = [
+  'Seattle', 'Redmond', 'San Francisco', 'Remote',
+  'New York', 'Los Angeles', 'Sunnyvale', 'Austin',
+  'Chicago', 'San Jose', 'Mountain View', 'Cupertino', 'Menlo Park',
+];
+
+const EXPERIENCE_OPTIONS = ['Internship', 'Entry level', 'Mid level'];
+
 function JobsPage(props) {
   const [searchTerm, setSearchTerm] = useState('');
   const [locationFilter, setLocationFilter] = useState('Any location');
   const [salaryFilter, setSalaryFilter] = useState('Any salary');
   const [experienceFilter, setExperienceFilter] = useState('Any level');
   const [sponsorshipFilter, setSponsorshipFilter] = useState('Any');
+  const [sortBy, setSortBy] = useState('Newest');
   const [savedMessage, setSavedMessage] = useState('');
   const [saveError, setSaveError] = useState('');
   const [savingJobId, setSavingJobId] = useState('');
-
-  function handleSearchChange(event) {
-    setSearchTerm(event.target.value);
-  }
-
-  function handleLocationChange(event) {
-    setLocationFilter(event.target.value);
-  }
-
-  function handleSalaryChange(event) {
-    setSalaryFilter(event.target.value);
-  }
-
-  function handleExperienceChange(event) {
-    setExperienceFilter(event.target.value);
-  }
-
-  function handleSponsorshipChange(event) {
-    setSponsorshipFilter(event.target.value);
-  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -43,6 +32,7 @@ function JobsPage(props) {
     setSalaryFilter('Any salary');
     setExperienceFilter('Any level');
     setSponsorshipFilter('Any');
+    setSortBy('Newest');
     setSavedMessage('');
     setSaveError('');
   }
@@ -77,7 +67,7 @@ function JobsPage(props) {
       sourceJobId: job.id,
       status: 'Saved',
       date: 'Today',
-      notes: ''
+      notes: '',
     };
 
     setSavedMessage('');
@@ -95,7 +85,25 @@ function JobsPage(props) {
       });
   }
 
-  const filteredJobs = props.jobs.filter(jobMatches);
+  let filteredJobs = props.jobs.filter(jobMatches);
+
+  if (sortBy === 'Company') {
+    filteredJobs = filteredJobs.sort(function(a, b) {
+      return a.company.localeCompare(b.company);
+    });
+  }
+
+  if (sortBy === 'Role') {
+    filteredJobs = filteredJobs.sort(function(a, b) {
+      return a.role.localeCompare(b.role);
+    });
+  }
+
+  const hasActiveFilters =
+    locationFilter !== 'Any location' ||
+    salaryFilter !== 'Any salary' ||
+    experienceFilter !== 'Any level' ||
+    sponsorshipFilter !== 'Any';
 
   const jobCards = filteredJobs.map(function(job) {
     return (
@@ -112,20 +120,19 @@ function JobsPage(props) {
 
   return (
     <PageLayout>
+      {/* Page heading */}
       <div className="page-heading">
         <div>
-          <h1>Job Search &amp; Filter</h1>
-          <p className="muted-text">Search open job listings and save the ones you want to track.</p>
+          <h1>Find jobs</h1>
+          <p className="muted-text">Search, filter, and save jobs you want to track.</p>
         </div>
-        <Link className="button" to="/applications">View Applications</Link>
+        <Link className="button secondary-button" to="/applications">
+          View Applications
+        </Link>
       </div>
 
-      <section className="card search-card">
-        <div>
-          <h2>Search Jobs</h2>
-          <p className="muted-text">Saved listings are removed from this page and added to your applications board.</p>
-        </div>
-
+      {/* Search bar */}
+      <section className="card search-card compact-search-card">
         <form className="form-stack" onSubmit={handleSubmit}>
           <div className="search-row">
             <div className="form-row">
@@ -136,67 +143,65 @@ function JobsPage(props) {
                 type="search"
                 placeholder="Search job title, company..."
                 value={searchTerm}
-                onChange={handleSearchChange}
+                onChange={function(event) { setSearchTerm(event.target.value); }}
               />
             </div>
             <button className="button" type="submit">Search</button>
           </div>
 
-          <div className="settings-grid">
-            <div className="form-row">
-              <label htmlFor="location">Location</label>
-              <select id="location" name="location" value={locationFilter} onChange={handleLocationChange}>
-                <option>Any location</option>
-                <option>Seattle</option>
-                <option>Redmond</option>
-                <option>San Francisco</option>
-                <option>Remote</option>
-                <option>New York</option>
-                <option>Los Angeles</option>
-                <option>Sunnyvale</option>
-                <option>Austin</option>
-                <option>Chicago</option>
-                <option>San Jose</option>
-                <option>Mountain View</option>
-                <option>Cupertino</option>
-                <option>Menlo Park</option>
-              </select>
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="salary">Salary Range</label>
-              <select id="salary" name="salary" value={salaryFilter} onChange={handleSalaryChange}>
-                <option>Any salary</option>
-                <option>$60k - $100k</option>
-                <option>$100k - $140k</option>
-                <option>$140k+</option>
-              </select>
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="experience">Experience Level</label>
-              <select id="experience" name="experience" value={experienceFilter} onChange={handleExperienceChange}>
-                <option>Any level</option>
-                <option>Internship</option>
-                <option>Entry level</option>
-                <option>Mid level</option>
-              </select>
-            </div>
-
-            <div className="form-row">
-              <label htmlFor="sponsorship">Visa Sponsorship</label>
-              <select id="sponsorship" name="sponsorship" value={sponsorshipFilter} onChange={handleSponsorshipChange}>
-                <option>Any</option>
-                <option>Sponsors visa</option>
-                <option>No sponsorship</option>
+          {/* Quick-filter chips: Location */}
+          <div>
+            <p className="filter-chip-label">Location</p>
+            <div className="quick-filter-row">
+              {LOCATION_OPTIONS.slice(0, 5).map(function(loc) {
+                return (
+                  <button
+                    key={loc}
+                    type="button"
+                    className={locationFilter === loc ? 'chip active-chip' : 'chip'}
+                    onClick={function() {
+                      setLocationFilter(locationFilter === loc ? 'Any location' : loc);
+                    }}
+                  >
+                    {loc}
+                  </button>
+                );
+              })}
+              {/* remaining locations in a select for overflow */}
+              <select
+                className="chip-select"
+                value={LOCATION_OPTIONS.slice(0, 5).includes(locationFilter) ? '' : locationFilter}
+                onChange={function(event) {
+                  setLocationFilter(event.target.value || 'Any location');
+                }}
+              >
+                <option value="">More cities…</option>
+                {LOCATION_OPTIONS.slice(5).map(function(loc) {
+                  return <option key={loc} value={loc}>{loc}</option>;
+                })}
               </select>
             </div>
           </div>
 
-          <div className="filter-actions">
-            <button className="button secondary-button" type="button" onClick={handleReset}>
-              Reset Filters
-            </button>
+          {/* Quick-filter chips: Experience */}
+          <div>
+            <p className="filter-chip-label">Experience</p>
+            <div className="quick-filter-row">
+              {EXPERIENCE_OPTIONS.map(function(exp) {
+                return (
+                  <button
+                    key={exp}
+                    type="button"
+                    className={experienceFilter === exp ? 'chip active-chip' : 'chip'}
+                    onClick={function() {
+                      setExperienceFilter(experienceFilter === exp ? 'Any level' : exp);
+                    }}
+                  >
+                    {exp}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </form>
       </section>
@@ -204,18 +209,90 @@ function JobsPage(props) {
       {savedMessage !== '' && <p className="data-note">{savedMessage}</p>}
       {saveError !== '' && <p className="data-note">{saveError}</p>}
 
-      <p className="muted-text">{filteredJobs.length} open jobs found</p>
+      {/* Main content: sidebar + job list */}
+      <div className="jobs-layout">
 
-      <section className="job-grid">
-        {jobCards}
-      </section>
+        {/* Sidebar filters */}
+        <aside className="filter-sidebar">
+          <div className="sidebar-header">
+            <span className="sidebar-title">Filters</span>
+            {hasActiveFilters && (
+              <button className="reset-link" type="button" onClick={handleReset}>
+                Reset all
+              </button>
+            )}
+          </div>
 
-      {filteredJobs.length === 0 && (
-        <section className="card empty-state">
-          <h2>No open jobs match these filters</h2>
-          <p>Try changing the search term, selecting a broader filter, or checking your applications page.</p>
-        </section>
-      )}
+          <div className="sidebar-section">
+            <p className="sidebar-section-label">Salary</p>
+            <div className="form-row">
+              <select
+                id="salary"
+                value={salaryFilter}
+                onChange={function(event) { setSalaryFilter(event.target.value); }}
+              >
+                <option>Any salary</option>
+                <option>$60k - $100k</option>
+                <option>$100k - $140k</option>
+                <option>$140k+</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="sidebar-section">
+            <p className="sidebar-section-label">Sponsorship</p>
+            <div className="sidebar-radio-group">
+              {['Any', 'Sponsors visa', 'No sponsorship'].map(function(opt) {
+                return (
+                  <label key={opt} className="sidebar-radio-label">
+                    <input
+                      type="radio"
+                      name="sponsorship"
+                      value={opt}
+                      checked={sponsorshipFilter === opt}
+                      onChange={function() { setSponsorshipFilter(opt); }}
+                    />
+                    {opt}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="sidebar-section">
+            <p className="sidebar-section-label">Sort by</p>
+            <div className="form-row">
+              <select
+                id="sort"
+                value={sortBy}
+                onChange={function(event) { setSortBy(event.target.value); }}
+              >
+                <option>Newest</option>
+                <option>Company</option>
+                <option>Role</option>
+              </select>
+            </div>
+          </div>
+        </aside>
+
+        {/* Results */}
+        <div className="jobs-results">
+          <p className="muted-text results-count">
+            <strong>{filteredJobs.length}</strong> open jobs found
+          </p>
+
+          <section className="job-grid">
+            {jobCards}
+          </section>
+
+          {filteredJobs.length === 0 && (
+            <section className="card empty-state">
+              <h2>No open jobs match these filters</h2>
+              <p>Try changing the search term, selecting a broader filter, or checking your applications page.</p>
+            </section>
+          )}
+        </div>
+      </div>
     </PageLayout>
   );
 }

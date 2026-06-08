@@ -327,6 +327,10 @@ textarea {
   margin-bottom: 1rem;
 }
 
+.compact-search-card {
+  padding: 1.25rem;
+}
+
 .search-row {
   display: grid;
   gap: 0.75rem;
@@ -338,6 +342,173 @@ textarea {
   padding: 0.55rem 1rem;
   align-self: end;
   justify-self: start;
+}
+
+.quick-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.chip {
+  border: 1px solid #165a72;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  color: #14323d;
+  background-color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.chip:hover,
+.chip:focus,
+.active-chip {
+  color: #ffffff;
+  background-color: #165a72;
+}
+
+.chip-select {
+  height: 2.05rem;
+  border: 1px solid #165a72;
+  border-radius: 999px;
+  padding: 0 0.85rem;
+  color: #14323d;
+  background-color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: auto;
+}
+
+.chip-select:focus {
+  outline: 2px solid #165a72;
+  outline-offset: 2px;
+}
+
+.filter-chip-label {
+  margin: 0 0 0.4rem;
+  color: #5f6f7c;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.compact-filter-grid {
+  margin-top: 0.25rem;
+}
+
+.results-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1.25rem 0 1rem;
+}
+
+.results-header p {
+  margin-bottom: 0;
+}
+
+.sort-control {
+  max-width: 14rem;
+}
+
+/* Jobs layout: sidebar + results */
+.jobs-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.filter-sidebar {
+  border: 1px solid #d3dde5;
+  border-radius: 0.8rem;
+  padding: 1rem 1.1rem;
+  background-color: #ffffff;
+  box-shadow: 0 0.3rem 0.9rem rgba(29, 39, 51, 0.06);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+
+.sidebar-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111820;
+}
+
+.reset-link {
+  border: none;
+  background: transparent;
+  color: #165a72;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.reset-link:hover {
+  color: #0e3f50;
+}
+
+.sidebar-section {
+  border-top: 1px solid #e8eef3;
+  padding: 0.85rem 0;
+}
+
+.sidebar-section:last-child {
+  padding-bottom: 0;
+}
+
+.sidebar-section-label {
+  margin: 0 0 0.55rem;
+  color: #5f6f7c;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sidebar-section select {
+  width: 100%;
+}
+
+.sidebar-radio-group {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.sidebar-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #1d2733;
+  cursor: pointer;
+}
+
+.sidebar-radio-label input[type="radio"] {
+  width: auto;
+  accent-color: #165a72;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.jobs-results {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+.results-count {
+  margin-bottom: 0;
 }
 
 .company-logo {
@@ -560,6 +731,12 @@ textarea {
   }
 }
 
+@media (min-width: 900px) {
+  .jobs-layout {
+    grid-template-columns: 210px 1fr;
+  }
+}
+
 @media (min-width: 992px) {
   .job-grid,
   .analytics-grid {
@@ -717,4 +894,297 @@ textarea {
 .auth-panel .firebaseui-button {
   border-radius: 0.35rem;
   font-weight: 700;
+}
+
+.dash-stat-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.dash-metric {
+  background-color: #ffffff;
+  border: 1px solid #d3dde5;
+  border-radius: 0.7rem;
+  padding: 18px 20px;
+  box-shadow: 0 0.3rem 0.9rem rgba(29, 39, 51, 0.06);
+}
+
+.dash-metric-icon {
+  font-size: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.dash-icon-teal  { color: #165a72; }
+.dash-icon-blue  { color: #185FA5; }
+.dash-icon-amber { color: #854F0B; }
+.dash-icon-green { color: #3B6D11; }
+
+.dash-metric-val {
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  color: #111820 !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+}
+
+.dash-metric-lbl {
+  font-size: 13px;
+  color: #5f6f7c;
+  margin-top: 5px;
+  font-weight: 400;
+}
+
+/* Pipeline card */
+.dash-pipeline-card {
+  padding: 1rem 1.25rem;
+}
+
+.dash-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.dash-section-header h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.dash-section-count {
+  font-size: 0.8rem;
+}
+
+.dash-pipeline-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.dash-pipeline-seg {
+  height: 8px;
+  min-width: 4px;
+}
+
+.dash-pipeline-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dash-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #5f6f7c;
+}
+
+.dash-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dash-empty-hint {
+  font-size: 14px;
+  color: #5f6f7c;
+  margin: 0.25rem 0 0;
+  padding: 0.75rem 0;
+}
+
+/* Two-column layout */
+.dash-two-col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+/* Recent applications list */
+.dash-app-list {
+  display: grid;
+  gap: 0;
+}
+
+.dash-app-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid #e8eef3;
+}
+
+.dash-app-row:last-child {
+  border-bottom: none;
+}
+
+.dash-app-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 0.45rem;
+  border: 1px solid #d3dde5;
+  background-color: #f5f7fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #5f6f7c;
+  flex-shrink: 0;
+}
+
+.dash-app-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-app-company {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111820;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-app-role {
+  font-size: 12px;
+  color: #5f6f7c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dash-app-date {
+  font-size: 11px;
+  color: #9badba;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dash-view-all-btn {
+  font-size: 12px;
+  padding: 0.35rem 0.75rem;
+}
+
+/* Action items */
+.dash-pending-badge {
+  font-size: 11px;
+  background-color: #faeeda;
+  color: #854F0B;
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-weight: 700;
+}
+
+.dash-todo-list {
+  display: grid;
+  gap: 0;
+}
+
+.dash-todo-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid #e8eef3;
+}
+
+.dash-todo-row:last-child {
+  border-bottom: none;
+}
+
+.dash-todo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.dash-todo-text {
+  font-size: 13px;
+  color: #111820;
+  font-weight: 700;
+}
+
+.dash-todo-sub {
+  font-size: 11px;
+  color: #9badba;
+  margin-top: 2px;
+}
+
+/* Empty state */
+.dash-empty-state {
+  padding: 2rem 1rem;
+  text-align: center;
+  border: 2px dashed #d3dde5;
+  border-radius: 0.7rem;
+  margin-top: 0.5rem;
+}
+
+.dash-empty-state p {
+  font-size: 14px;
+  color: #5f6f7c;
+  margin-bottom: 1rem;
+}
+
+/* Quick insights */
+.dash-insights-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.dash-insight-val {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #165a72;
+  margin-bottom: 2px;
+}
+
+.dash-insight-lbl {
+  font-size: 12px;
+  color: #5f6f7c;
+}
+
+/* Status badges */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-saved     { background-color: #dff3f4; color: #0F6E56; }
+.badge-applied   { background-color: #E6F1FB; color: #185FA5; }
+.badge-interview { background-color: #FAEEDA; color: #854F0B; }
+.badge-offer     { background-color: #EAF3DE; color: #3B6D11; }
+.badge-rejected  { background-color: #FCEBEB; color: #A32D2D; }
+
+@media (min-width: 576px) {
+  .dash-stat-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .dash-insights-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .dash-two-col {
+    grid-template-columns: 1fr 1fr;
+  }
 }
