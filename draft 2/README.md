@@ -1,6 +1,7 @@
-# JobTrack Draft 2
+# JobTrack Final Version
 
 This is the React version of the JobTrack project for Draft 2.
+Editor: Harry Han, Pengyu Liu
 
 ## What is included
 
