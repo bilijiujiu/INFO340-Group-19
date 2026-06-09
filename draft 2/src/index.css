@@ -1156,7 +1156,7 @@ textarea {
   color: #5f6f7c;
 }
 
-/* Status badges */
+
 .badge {
   display: inline-block;
   font-size: 11px;
@@ -1187,4 +1187,25 @@ textarea {
   .dash-two-col {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.dash-pipeline-seg {
+  width: var(--segment-width);
+  background-color: var(--segment-bg);
+}
+
+.dash-legend-dot {
+  background-color: var(--legend-color);
+}
+
+.dash-todo-dot {
+  background-color: var(--todo-color);
+}
+
+.dash-empty-message {
+  margin-top: 0.75rem;
+}
+
+.dash-section-header-spaced {
+  margin-bottom: 1rem;
 }
